@@ -1,0 +1,254 @@
+:root {
+    --red: #E50914;
+    --black: #000000;
+    --light-color: #181818;
+    --box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    --scrollbar-bg: #444;
+    --scrollbar-thumb: #888;
+    --scrollbar-thumb-hover: #E50914;
+}
+
+
+
+/* Filters Container */
+.filters-container {
+    
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 20px;
+    text-align: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+ 
+
+  
+
+    h2 {
+        font-size: 24px;
+        color: whitesmoke;
+    }
+}
+
+#genre-select {
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+#genre-select:hover {
+    color: var(--black);
+    background-color: var(--red);
+}
+
+#genre-select:focus, #rating-select:focus, #type-select:focus {
+    outline: none;
+  
+}
+
+
+
+#rating-select:hover{
+    color: var(--black);
+    background-color: var(--red);
+
+}
+
+#type-select:hover{
+    color: var(--black);
+    background-color: var(--red);
+  
+    
+}
+
+#status-select:hover{
+    color: var(--black);
+    background-color: var(--red);
+    
+}
+#order-select:hover{
+    color: var(--black);
+    background-color: var(--red);
+    
+}
+#sort-select:hover{
+    color: var(--black);
+    background-color: var(--red);
+    
+}
+
+#season-select:hover{
+    color: var(--black);
+    background-color: var(--red);
+    
+}
+
+
+
+#output {
+    color: white;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-width: 200px;
+    max-height: 50px;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.genre-item {
+    display: inline-block;
+    padding: 2px 6px;
+    margin: 0 5px;
+    background-color: #444;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.remove {
+    margin-left: 5px;
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.filters label {
+    font-weight: bold;
+    font-size: 18px;
+    color: #f0f0f0;
+}
+
+.filters select, .filters button {
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.filters select option {
+    background: var(--black);
+    color: #ffffff;
+    outline: none;
+   
+}
+
+
+
+
+.filters select::-webkit-scrollbar {
+    width: 8px;
+}
+
+.filters select::-webkit-scrollbar-track {
+    background: var(--scrollbar-bg);
+}
+
+.filters select::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 10px;
+}
+
+.filters select::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+}
+
+.filters button {
+    background-color: var(--red);
+    color: white;
+}
+
+.filters button:hover {
+    background-color: var(--black);
+    color: var(--red)
+}
+
+#reset-button{
+    background-color: var(--red);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#reset-button:hover{
+    background-color: var(--black);
+    color: var(--red)
+}
+
+
+
+
+/* Anime List Container */
+.anime-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+
+/* Pagination Container */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Pagination Buttons */
+.pagination button {
+    background-color: var(--light-color);
+    border: 1px solid var(--box-shadow);
+    padding: 10px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #E50914;
+}
+
+.pagination button.active {
+    background-color: var(--red);
+    color: white;
+}
+
+.pagination button.disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    color: #888;
+}
+
+.pagination span.ellipsis {
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+    color: #888;
+}
+
+.pagination button.arrow {
+    font-size: 1.5rem;
+    background-color: var(--light-color);
+    border: 1px solid var(--box-shadow);
+}
+
+.pagination button.arrow:hover {
+    background-color: var(--red);
+    color: white;
+}
+/* hello */

@@ -1,0 +1,40 @@
+.saved-anime-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.saved-anime-table th, .saved-anime-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.saved-anime-table th {
+    background-color: #ff0000;
+    color: #ffffff;
+}
+
+.saved-anime-table tr:nth-child(even) {
+    background-color: #3c3c3c;
+  
+}
+
+.saved-anime-table tr:hover {
+    background-color: #111111;
+}
+
+.anime-image {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+}
+
+td a{
+   color: white;
+}
+td a:hover{
+    color: red;
+}
+

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Anime</title>
+
+    <link
+  rel="stylesheet"
+  href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
+/>
+
+    <!-- font awesome cdn link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+
+
+
+    <!-- custom css file link -->
+    <link rel="stylesheet" href="./styles/style.css">
+
+    <link rel="stylesheet" href="./styles/style6.css">
+
+    <!-- Toastify and loginn/register CSS files -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="./styles/login-register.css">
+          
+
+</head>
+<body>
+
+    <!-- header section start -->
+    <header>
+        <a href="index.html" class="logo"><i class="fa-brands fa-artstation"></i> WGWAnime</a>
+      
+
+   
+        
+
+        <div class="icons">
+         
+     
+            <div class="dropdown">
+                <i class="fas fa-bars dropbtn" id="menu-bars"></i>
+                <div class="dropdown-content" id="dropdown-content">
+                    <a class="home-link" href="index.html">home</a>
+                    <a class="genres-link" href="genres.html">Genres</a>
+                    
+                    <div class="dropdown">
+                        <a class="types-link" href="#">Types</a>
+                        <div class="dropdown-content-sub">
+                            <a href="displayAnimes.html?type=tv">tv</a>
+                            <a href="displayAnimes.html?type=movie">movie</a>
+                            <a href="displayAnimes.html?type=ova">ova</a>
+                            <a href="displayAnimes.html?type=special">special</a>
+                            <a href="displayAnimes.html?type=ona">ona</a>
+                            <a href="displayAnimes.html?type=music">music</a>
+                            <a href="displayAnimes.html?type=cm">cm</a>
+                            <a href="displayAnimes.html?type=pv">pv</a>
+                            <a href="displayAnimes.html?type=tv_special">tv special</a>
+                        </div>
+                    </div>
+                    
+
+
+                <a class="random-link" href="randomAnime.html">Random Anime</a>
+
+            
+                        
+                </div>
+            
+          
+            </div>
+            
+            <div class="search-box">
+                <button class="btn-search" id="search-button" ><i class="fas fa-search"></i></button>
+                <input type="text" class="input-search" id="search-input" placeholder="Type to Search..." autocomplete="off">
+            </div>
+          
+            <a href="saved-anime.html" class="fas fa-heart"></a>
+
+            <button class="btn login-btn" id="login-toggle-btn">Sign up/Login <i class="fa-solid fa-right-to-bracket"></i></button>
+            <div class="user-profile-container" id="user-profile-container" style="display: none;">
+                <img id="user-photo" class="user-profile-pic" src="rylanor3.jpg" alt="User Photo">
+                <span id="user-name" class="user-profile-name">User Name</span>
+                <div id="dropdown-menu" class="dropdown-menu">
+                    <a href="#" id="logout-btn" class="btn logout-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+        <!-- Login form container -->
+<div class="login-form-container" id="login-form-container"> 
+    <label for="show" class="close-btn fas fa-xmark" title="close"></label>
+    <div class="text" id="form-title">Login Form</div>
+    <form id="auth-form" action="#">
+        <div id="login-form"> 
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-password" placeholder="Password">
+        </div>
+        <div id="signup-form" style="display: none;"> 
+            <input type="file" id="user-photo-sign-up" class="user-photo-sign-up" accept="image/*">  <!--user upload image to be used as thier profile picture -->
+            <input type="text" id="signup-username" placeholder="Username"> <!-- user their name here aswell-->
+            <input type="email" id="signup-email" placeholder="Email">
+            <input type="password" id="signup-password" placeholder="Password">
+        </div>
+        <div class="btn">
+            <button type="submit">Login</button> 
+        </div>
+        <div class="btn google-btn">
+            <button type="button" id="google-login-btn">Login with Google</button> 
+        </div>
+        <div class="signup-link">
+            Not a member? <a href="#" id="toggle-form">Signup now</a>
+        </div>
+    </form>
+</div>
+    
+
+<div class="heading">
+    <h1> Saved Anime </h1>
+</div>
+   
+    <table class="saved-anime-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Trailer</th>
+                <th> ID </th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Anime rows will be inserted here -->
+        </tbody>
+    </table>
+
+<!-- copyright -->
+<div class="copyright container">
+    <a href="index.html" class="logo"><i class="fa-brands fa-artstation"></i> WGWAnime</a>
+    <p>&#169; WGP. All rights reserved.</p>
+</div>
+
+
+<!-- link swiper file -->
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+  
+
+
+<!-- All the scripts for firebase and stuff -->
+<script type="module" src="./scripts/firebase.mjs"></script>  <!-- Firebase configuration and initialization -->
+<script type="module" src="./scripts/auth.mjs"></script>    
+<script type="module" src="./scripts/login.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<!-- <script src="main.js"></script>
+<script src="seasonNow.js"></script> -->
+<!-- <script src="topAnime.js"></script> -->
+<!-- <script src="upcomingAnime.js"></script>
+<script src="prevYearSeasonAnime.js"></script>
+<script src="search.js"></script>
+<script src="dropDown.js"></script>   -->
+<script type="module"  src="./scripts/saved-anime.js"></script>
+</body>
+</html>
