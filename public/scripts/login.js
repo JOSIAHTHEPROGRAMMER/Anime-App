@@ -98,7 +98,7 @@ authForm.addEventListener('submit', async (e) => {
     if (signupUsername) {
       // Signup
       const userCredential = await createAccountWithEmail(signupEmail, signupPassword);
-      console.log('User signed up:', userCredential.user);
+     // console.log('User signed up:', userCredential.user);
 
       let photoURL = null;
       const file = signUpImageInput.files[0];
@@ -123,7 +123,7 @@ authForm.addEventListener('submit', async (e) => {
     } else {
       // Login
       const userCredential = await loginWithEmail(email, password);
-      console.log('User logged in:', userCredential.user);
+    //  console.log('User logged in:', userCredential.user);
 
       const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
       updateUIWithUser(userCredential.user, userDoc.exists() ? userDoc.data() : {});

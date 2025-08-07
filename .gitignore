@@ -10,8 +10,11 @@ firebase-debug.*.log*
 # Firebase
 .firebase/
 .firebaserc
-.firebase.mjs
+
 firebase.json
+
+/public/firebase-config.json
+
 
 # VS Code
 .vscode/
