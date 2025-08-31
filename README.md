@@ -1,6 +1,6 @@
 # WGWAnime
 
-[**WGWAnime**](https://anime-app-d4be4.web.app/) is a modern web application built with **React** that helps users explore, track, and discover anime across seasons, genres, and formats. This app provides a clean, responsive interface that integrates live anime data to keep fans up to date.
+[**WGWAnime**](https://anime-app-d4be4.web.app/) is a web application built using HTML AND javascript with firebase and [Jikan API](https://jikan.moe/) that helps users explore, track, and discover anime across seasons, genres, and formats. 
 
 ---
 
