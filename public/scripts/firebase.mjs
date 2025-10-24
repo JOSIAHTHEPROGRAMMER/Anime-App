@@ -18,8 +18,7 @@ async function initFirebase() {
   db = getFirestore(app);
   storage = getStorage(app);
 
-  // Optional: export or use here
-  console.log('Firebase initialized');
+ 
 }
 
 initFirebase();
