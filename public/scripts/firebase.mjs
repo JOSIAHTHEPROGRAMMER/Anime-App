@@ -11,15 +11,13 @@ async function initFirebase() {
   
   
   const firebaseConfig = await response.json();
- // console.log(firebaseConfig)
-  // Initialize Firebase
+ 
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
   db = getFirestore(app);
   storage = getStorage(app);
 
-  // Optional: export or use here
-  console.log('Firebase initialized');
+
 }
 
 initFirebase();
