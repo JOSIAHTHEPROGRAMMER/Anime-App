@@ -1,6 +1,7 @@
 # WGWAnime
 
 [**WGWAnime**](https://anime-app-d4be4.web.app/) is a web application built using HTML AND javascript with firebase and [Jikan API](https://jikan.moe/) that helps users explore, track, and discover anime across seasons, genres, and formats. 
+>NOTE: The app is incomplete and due to updates in Firebase and Jikan api, the site is deployed link is no longer functional. You will need to modify the code and also have Pay as you go Blaze Plan.
 
 ---
 
