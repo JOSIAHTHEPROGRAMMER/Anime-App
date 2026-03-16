@@ -86,7 +86,7 @@ const synopsisContainer = document.getElementById("synopsis-ani");
 const backgroundInfo = document.getElementById("background-info");
 
 if (animeId) {
-    console.log("Anime ID:", animeId);
+   // console.log("Anime ID:", animeId);
 
     async function getAni(animeId) {
         try {
@@ -105,6 +105,7 @@ if (animeId) {
 
     function generateHtml(animeData) {
         // Function to generate HTML snippets
+        console.log(animeData);
         let html = `
             <div class="anime-img">
                 <img src='${animeData.images.jpg.large_image_url}' alt="Anime Image" class="anime-image" />
@@ -306,6 +307,7 @@ if (animeId) {
     ${producersHtml}
     ${licensorsHtml}
     ${studiosHtml}
+    <p><strong>ID:</strong> ${animeData.mal_id}</p>
 `;
         }
     }

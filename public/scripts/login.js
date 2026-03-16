@@ -7,17 +7,17 @@ import { loginWithEmail, createAccountWithEmail } from './auth.mjs';
 
 // Function to show toast notifications
 function showToast(message, type = 'info') {
-    Toastify({
-        text: message,
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "right",
-        stopOnFocus: true,
-        style: {
-            background: type === 'success' ? "linear-gradient(to right, #00b09b, #96c93d)" : "linear-gradient(to right, #ff5f6d, #ffc371)",
-        },
-    }).showToast();
+  Toastify({
+    text: message,
+    duration: 3000,
+    close: true,
+    gravity: "top",
+    position: "right",
+    stopOnFocus: true,
+    style: {
+      background: type === 'success' ? "linear-gradient(to right, #00b09b, #96c93d)" : "linear-gradient(to right, #ff5f6d, #ffc371)",
+    },
+  }).showToast();
 }
 
 // Auth state change listener
@@ -27,8 +27,8 @@ auth.onAuthStateChanged(async user => {
     const userDoc = await getDoc(doc(db, 'users', user.uid));
     updateUIWithUser(user, userDoc.exists() ? userDoc.data() : {});
 
- 
-   
+
+
   } else {
     console.log('No user logged in');
     userProfileContainer.style.display = 'none';
@@ -98,7 +98,7 @@ authForm.addEventListener('submit', async (e) => {
     if (signupUsername) {
       // Signup
       const userCredential = await createAccountWithEmail(signupEmail, signupPassword);
-     // console.log('User signed up:', userCredential.user);
+      // console.log('User signed up:', userCredential.user);
 
       let photoURL = null;
       const file = signUpImageInput.files[0];
@@ -113,9 +113,9 @@ authForm.addEventListener('submit', async (e) => {
         email: signupEmail,
         uid: userCredential.user.uid,
         photoURL: photoURL,
-      
+
       });
-      
+
       showToast("User signed up successfully", 'success');
       updateUIWithUser(userCredential.user, { username: signupUsername, photoURL });
 
@@ -123,7 +123,7 @@ authForm.addEventListener('submit', async (e) => {
     } else {
       // Login
       const userCredential = await loginWithEmail(email, password);
-    //  console.log('User logged in:', userCredential.user);
+      //  console.log('User logged in:', userCredential.user);
 
       const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
       updateUIWithUser(userCredential.user, userDoc.exists() ? userDoc.data() : {});
@@ -148,7 +148,7 @@ googleLoginButton.addEventListener('click', async () => {
     const userDoc = await getDoc(userDocRef);
 
     if (!userDoc.exists()) {
-      const photoURL = user.photoURL || "./rylanor3.jpg"; // Default photo URL if none provided by Google
+      const photoURL = user.photoURL || "./.image/default-pfp-24.jpg"; // Default photo URL if none provided by Google
 
       // Save user data to Firestore
       await setDoc(userDocRef, {
@@ -156,7 +156,7 @@ googleLoginButton.addEventListener('click', async () => {
         email: user.email,
         uid: user.uid,
         photoURL: photoURL,
-     
+
       });
 
       console.log('User data saved to Firestore:', {
@@ -164,7 +164,7 @@ googleLoginButton.addEventListener('click', async () => {
         email: user.email,
         uid: user.uid,
         photoURL: photoURL,
-    
+
       });
     }
 
@@ -180,7 +180,7 @@ googleLoginButton.addEventListener('click', async () => {
 // Function to update UI with user information
 function updateUIWithUser(user, userData = {}) {
   const userName = userData.username || user.displayName || 'User';
-  const userPhoto = userData.photoURL || user.photoURL || "rylanor3.jpg";
+  const userPhoto = userData.photoURL || user.photoURL || ".image/default-pfp-24.jpg";
 
   if (userProfilePic) {
     userProfilePic.src = userPhoto;
