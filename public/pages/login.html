@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In - WGWAnime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <div class="auth-card__logo">WGW<span>Anime</span></div>
+      <h2 class="auth-card__title">Welcome back</h2>
+      <p class="auth-card__sub">Log in to your account</p>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" />
+        <p class="form-error" id="emailError"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+        <p class="form-error" id="passwordError"></p>
+      </div>
+
+      <p class="form-error" id="globalError"></p>
+
+      <button class="btn btn--primary" id="loginBtn">Log in</button>
+
+      <div class="auth-switch">
+        Don't have an account? <a href="./register.html">Sign up</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/login.js"></script>
+
+</body>
+</html>

@@ -1,65 +1,26 @@
-/* ============================================================
-   WGWAnime — main.css
-   Sections:
-   1. Design Tokens
-   2. Reset & Base
-   3. Typography
-   4. Utility Classes
-   5. Buttons
-   6. Navbar
-   7. Hero
-   8. Row / Card Grid
-   9. Anime Card
-   10. Anime Detail Page
-   11. Browse / Filters
-   12. Genres Page
-   13. Saved / Watchlist Page
-   14. Auth Pages (Login / Register)
-   15. Profile Page
-   16. Social Page
-   17. Modals & Toasts
-   18. Pagination
-   19. Footer
-   20. Scrollbar
-   21. Animations
-   22. Media Queries
-   ============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap");
 
-/* ============================================================
-   1. DESIGN TOKENS
-   ============================================================ */
 :root {
-  /* Brand */
   --red: #e50914;
   --red-dim: #b0060f;
   --red-glow: rgba(229, 9, 20, 0.25);
-
-  /* Surfaces */
   --bg: #0f0f13;
   --surface: #16161d;
   --surface-2: #1e1e28;
   --surface-3: #26262f;
   --border: rgba(255, 255, 255, 0.07);
-
-  /* Text */
   --text: #e8e8f0;
   --text-muted: #8888a0;
   --text-faint: #44445a;
-
-  /* Radius */
   --radius-sm: 6px;
   --radius: 10px;
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-full: 9999px;
-
-  /* Shadows */
   --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.4);
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
   --shadow-red: 0 0 20px var(--red-glow);
-
-  /* Spacing scale */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -68,18 +29,11 @@
   --space-6: 32px;
   --space-7: 48px;
   --space-8: 64px;
-
-  /* Transitions */
   --transition: 0.2s ease;
   --transition-slow: 0.4s ease;
-
-  /* Navbar height (used as offset elsewhere) */
   --nav-h: 64px;
 }
 
-/* ============================================================
-   2. RESET & BASE
-   ============================================================ */
 *,
 *::before,
 *::after {
@@ -98,6 +52,9 @@ html {
 body {
   background-color: var(--bg);
   color: var(--text);
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -106,40 +63,25 @@ img {
   display: block;
   max-width: 100%;
 }
-
 a {
   color: inherit;
   text-decoration: none;
 }
-
 ul,
 ol {
   list-style: none;
 }
-
 button {
   font-family: inherit;
   cursor: pointer;
   border: none;
   background: none;
 }
-
 input,
 select,
 textarea {
   font-family: inherit;
   font-size: inherit;
-}
-
-/* ============================================================
-   3. TYPOGRAPHY
-   ============================================================ */
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap");
-
-body {
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.6;
 }
 
 h1,
@@ -149,7 +91,6 @@ h3 {
   line-height: 1.1;
   color: var(--text);
 }
-
 h1 {
   font-size: clamp(2rem, 5vw, 3.5rem);
 }
@@ -159,21 +100,17 @@ h2 {
 h3 {
   font-size: 1.15rem;
 }
-
 p {
   color: var(--text-muted);
 }
 
-/* ============================================================
-   4. UTILITY CLASSES
-   ============================================================ */
+/* Utilities */
 .container {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 var(--space-5);
 }
-
 .text-red {
   color: var(--red);
 }
@@ -183,7 +120,6 @@ p {
 .text-center {
   text-align: center;
 }
-
 .flex {
   display: flex;
 }
@@ -212,7 +148,6 @@ p {
   color: var(--text-muted);
   border: 1px solid var(--border);
 }
-
 .tag--red {
   background: var(--red-glow);
   color: var(--red);
@@ -246,9 +181,7 @@ p {
   border-radius: var(--radius);
 }
 
-/* ============================================================
-   5. BUTTONS
-   ============================================================ */
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -266,7 +199,6 @@ p {
     box-shadow var(--transition);
   white-space: nowrap;
 }
-
 .btn:active {
   transform: scale(0.97);
 }
@@ -303,7 +235,6 @@ p {
   font-size: 0.8rem;
   border-radius: var(--radius-sm);
 }
-
 .btn--lg {
   padding: 14px 32px;
   font-size: 1rem;
@@ -325,9 +256,7 @@ p {
   background: var(--red-glow);
 }
 
-/* ============================================================
-   6. NAVBAR
-   ============================================================ */
+/* Navbar */
 .navbar {
   position: sticky;
   top: 0;
@@ -344,7 +273,6 @@ p {
   border-bottom: 1px solid var(--border);
 }
 
-/* Logo */
 .navbar__logo {
   font-family: "Syne", sans-serif;
   font-size: 1.4rem;
@@ -357,13 +285,11 @@ p {
   color: var(--red);
 }
 
-/* Nav links */
 .navbar__links {
   display: flex;
   align-items: center;
   gap: var(--space-1);
 }
-
 .navbar__links a {
   padding: 6px 14px;
   border-radius: var(--radius);
@@ -380,11 +306,9 @@ p {
   background: var(--surface-2);
 }
 
-/* Dropdown */
 .navbar__dropdown {
   position: relative;
 }
-
 .navbar__dropdown-btn {
   padding: 6px 14px;
   border-radius: var(--radius);
@@ -414,7 +338,6 @@ p {
   box-shadow: var(--shadow-lg);
   animation: fade-down 0.15s ease;
 }
-
 .navbar__dropdown:hover .navbar__dropdown-menu,
 .navbar__dropdown-menu.open {
   display: block;
@@ -434,7 +357,6 @@ p {
   color: var(--red);
 }
 
-/* Right side — search + auth */
 .navbar__right {
   display: flex;
   align-items: center;
@@ -442,7 +364,6 @@ p {
   flex-shrink: 0;
 }
 
-/* Search */
 .navbar__search {
   display: flex;
   align-items: center;
@@ -480,7 +401,6 @@ p {
   color: var(--red);
 }
 
-/* Auth states */
 .navbar__auth,
 .navbar__user {
   display: flex;
@@ -488,7 +408,6 @@ p {
   gap: var(--space-2);
 }
 
-/* Hide/show based on auth state — toggled by auth.js on <body> */
 body[data-auth="false"] [data-show-when="logged-in"] {
   display: none;
 }
@@ -504,7 +423,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border: 2px solid var(--border);
 }
 
-/* Mobile hamburger (hidden by default) */
 .navbar__hamburger {
   display: none;
   flex-direction: column;
@@ -531,103 +449,245 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ============================================================
-   7. HERO
-   ============================================================ */
+/* Hero */
 .hero {
   position: relative;
-  min-height: 480px;
-  display: flex;
-  align-items: center;
-  padding: var(--space-8) var(--space-6);
+  height: 580px;
   overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 0 var(--space-7) var(--space-7);
 }
 
-.hero::before {
-  content: "";
+/* Background image layer */
+.hero__bg {
   position: absolute;
   inset: 0;
+  background-size: cover;
+  background-position: center top;
+  transition:
+    background-image 0.5s ease,
+    opacity 0.6s ease;
+}
+
+/*
+ * When the background is a portrait image (anime poster used as fallback)
+ * we nudge position so the face/key-art area is visible and scale up enough
+ * to fill the wide hero without leaving gaps.
+ */
+.hero__bg[data-bg-type="portrait"] {
+  background-size: auto 120%;
+  background-position: 65% top;
+  filter: brightness(0.55) saturate(1.2);
+}
+
+/* Muted hover preview iframe, sits above bg but below overlay */
+.hero__hover-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   background:
-    radial-gradient(
-      ellipse 60% 80% at 20% 50%,
-      rgba(229, 9, 20, 0.12) 0%,
-      transparent 70%
+    linear-gradient(
+      to right,
+      rgba(10, 10, 14, 0.92) 30%,
+      rgba(10, 10, 14, 0.3) 75%,
+      transparent 100%
     ),
-    radial-gradient(
-      ellipse 40% 60% at 80% 30%,
-      rgba(100, 60, 255, 0.06) 0%,
-      transparent 70%
-    );
+    linear-gradient(to top, rgba(10, 10, 14, 0.8) 0%, transparent 60%);
+}
+
+/* Poster on the right */
+.hero__poster-wrap {
+  position: absolute;
+  right: 140px;
+  bottom: 0;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
   pointer-events: none;
 }
 
-/* Optional: when a featured anime image is set via JS */
-.hero[data-bg]::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, var(--bg) 40%, transparent 100%);
-  z-index: 0;
-}
-.hero[data-bg] {
-  background-size: cover;
-  background-position: center right;
+.hero__poster {
+  height: 88%;
+  width: auto;
+  max-width: 240px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.6);
+  transition: opacity 0.4s ease;
 }
 
-.hero__text {
+.hero__content {
   position: relative;
-  z-index: 1;
+  z-index: 4;
   max-width: 600px;
+  transition: opacity 0.3s ease;
+}
+.hero--transitioning .hero__content {
+  opacity: 0;
 }
 
-.hero__text h1 {
-  margin-bottom: var(--space-4);
-}
-
-.hero__text h1 span {
+.hero__spotlight {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
   color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-3);
 }
 
-.hero__text p {
-  font-size: 1.05rem;
-  margin-bottom: var(--space-5);
-  color: var(--text-muted);
-}
-
-.hero__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-5);
+.hero__title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.1;
+  margin-bottom: var(--space-3);
+  color: #fff;
 }
 
 .hero__meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-3);
   font-size: 0.85rem;
   color: var(--text-muted);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
 }
-
 .hero__meta .score {
-  display: flex;
-  align-items: center;
-  gap: 4px;
   color: #f5c518;
   font-weight: 700;
+}
+
+.hero__synopsis {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: var(--space-5);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 500px;
 }
 
 .hero__actions {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  flex-wrap: wrap;
 }
 
-/* ============================================================
-   8. ROW / CARD GRID (Homepage sections)
-   ============================================================ */
+/* Trailer modal */
+.hero__trailer-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.hero__trailer-wrap.open {
+  display: flex;
+}
+
+.hero__trailer-wrap iframe {
+  width: 70%;
+  aspect-ratio: 16/9;
+  border: none;
+  border-radius: var(--radius-lg);
+}
+
+.hero__trailer-close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-5);
+  font-size: 1.4rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+.hero__trailer-close:hover {
+  background: var(--red);
+}
+
+/* Arrows */
+.hero__arrow {
+  position: absolute;
+  right: var(--space-5);
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--transition),
+    border-color var(--transition);
+}
+.hero__arrow:hover {
+  background: var(--red);
+  border-color: var(--red);
+}
+.hero__arrow--prev {
+  top: calc(50% - 58px);
+}
+.hero__arrow--next {
+  top: calc(50% - 10px);
+}
+
+/* Dots */
+.hero__dots {
+  position: absolute;
+  bottom: var(--space-5);
+  right: var(--space-6);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.hero__dot {
+  width: 4px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.25);
+  transition:
+    background var(--transition),
+    height var(--transition);
+  cursor: pointer;
+}
+.hero__dot.active {
+  background: var(--red);
+  height: 28px;
+}
+
+/* Content and rows */
 .content {
   padding: var(--space-5) var(--space-6);
   display: flex;
@@ -636,6 +696,7 @@ body[data-auth="true"] [data-show-when="logged-out"] {
 }
 
 .row {
+  position: relative;
 }
 
 .row__header {
@@ -643,10 +704,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-4);
-}
-
-.row__header h2 {
-  margin: 0;
 }
 
 .row__see-all {
@@ -659,22 +716,75 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   color: var(--red);
 }
 
-/* Horizontal scroll container */
+/* The slider wrap uses flex so arrows sit beside the scroll area, never inside it */
+.row__slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* The actual scrollable card track */
 .row__cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: var(--space-4);
+  flex: 1;
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  overflow-y: visible;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-bottom: var(--space-2);
+  cursor: grab;
+  user-select: none;
+}
+.row__cards.dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+.row__cards::-webkit-scrollbar {
+  display: none;
 }
 
-/* Skeleton placeholders */
-.row__cards .card-skeleton {
-  aspect-ratio: 2/3;
-  border-radius: var(--radius);
+.row__cards .anime-card {
+  flex: 0 0 160px;
+  width: 160px;
+  animation: none;
+}
+.row__cards.dragging .anime-card {
+  pointer-events: none;
 }
 
-/* ============================================================
-   9. ANIME CARD
-   ============================================================ */
+/* Arrows sit as flex siblings of the scroll track */
+.row__arrow {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    opacity var(--transition);
+  box-shadow: var(--shadow);
+}
+.row__arrow:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+.row__arrow.disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Anime card */
 .anime-card {
   position: relative;
   border-radius: var(--radius);
@@ -686,9 +796,7 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     box-shadow var(--transition),
     border-color var(--transition);
   cursor: pointer;
-  group: true;
 }
-
 .anime-card:hover {
   transform: translateY(-4px) scale(1.01);
   box-shadow: var(--shadow-lg);
@@ -701,19 +809,17 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   overflow: hidden;
   background: var(--surface-2);
 }
-
 .anime-card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center; /* keep the face and title area visible for portrait images */
   transition: transform var(--transition-slow);
 }
-
 .anime-card:hover .anime-card__img {
   transform: scale(1.05);
 }
 
-/* Score badge on image */
 .anime-card__score {
   position: absolute;
   top: var(--space-2);
@@ -730,7 +836,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   gap: 3px;
 }
 
-/* Airing badge */
 .anime-card__airing {
   position: absolute;
   top: var(--space-2);
@@ -745,7 +850,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   letter-spacing: 0.04em;
 }
 
-/* Quick-add to watchlist — visible on hover */
 .anime-card__add {
   position: absolute;
   bottom: var(--space-2);
@@ -767,12 +871,10 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     transform var(--transition),
     color var(--transition);
 }
-
 .anime-card:hover .anime-card__add {
   opacity: 1;
   transform: translateY(0);
 }
-
 .anime-card__add:hover {
   color: var(--red);
 }
@@ -781,7 +883,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   opacity: 1;
 }
 
-/* Card body */
 .anime-card__body {
   padding: var(--space-3);
 }
@@ -792,6 +893,7 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   color: var(--text);
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: var(--space-1);
@@ -809,21 +911,20 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   gap: var(--space-2);
 }
 
-/* ============================================================
-   10. ANIME DETAIL PAGE
-   ============================================================ */
-.detail-page {
-  padding-top: var(--space-6);
+/* Browse grid used on search and filter pages */
+.anime-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-4);
 }
 
-/* Full-width blurred banner image */
+/* Anime detail page */
 .detail-banner {
   position: relative;
   height: 340px;
   overflow: hidden;
   margin-bottom: calc(-120px);
 }
-
 .detail-banner__img {
   width: 100%;
   height: 100%;
@@ -831,7 +932,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   filter: blur(2px) brightness(0.35);
   transform: scale(1.05);
 }
-
 .detail-banner__fade {
   position: absolute;
   bottom: 0;
@@ -841,7 +941,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   background: linear-gradient(to bottom, transparent, var(--bg));
 }
 
-/* Main layout */
 .detail-layout {
   display: grid;
   grid-template-columns: 220px 1fr;
@@ -853,11 +952,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   z-index: 1;
 }
 
-/* Poster */
-.detail-poster {
-  flex-shrink: 0;
-}
-
 .detail-poster__img {
   width: 100%;
   border-radius: var(--radius-lg);
@@ -866,7 +960,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   position: sticky;
   top: calc(var(--nav-h) + 16px);
 }
-
 .detail-poster__actions {
   margin-top: var(--space-3);
   display: flex;
@@ -874,19 +967,10 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   gap: var(--space-2);
 }
 
-/* Main info */
-.detail-info {
-}
-
-.detail-info__titles {
-  margin-bottom: var(--space-3);
-}
-
 .detail-info__title {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   margin-bottom: var(--space-1);
 }
-
 .detail-info__title-en {
   font-size: 1rem;
   color: var(--text-muted);
@@ -903,7 +987,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   font-size: 0.875rem;
   color: var(--text-muted);
 }
-
 .detail-info__score-big {
   display: flex;
   align-items: center;
@@ -923,11 +1006,9 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border-radius: var(--radius-lg);
   margin: var(--space-4) 0;
 }
-
 .detail-stat {
   text-align: center;
 }
-
 .detail-stat__label {
   font-size: 0.7rem;
   text-transform: uppercase;
@@ -935,18 +1016,15 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   color: var(--text-faint);
   margin-bottom: 4px;
 }
-
 .detail-stat__value {
   font-size: 1rem;
   font-weight: 700;
   color: var(--text);
 }
 
-/* Synopsis */
 .detail-section {
   margin-top: var(--space-5);
 }
-
 .detail-section h3 {
   font-size: 0.8rem;
   text-transform: uppercase;
@@ -957,7 +1035,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   align-items: center;
   gap: var(--space-2);
 }
-
 .detail-section h3::after {
   content: "";
   flex: 1;
@@ -970,14 +1047,13 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   line-height: 1.8;
   font-size: 0.95rem;
 }
-
 .detail-synopsis.collapsed {
   display: -webkit-box;
   -webkit-line-clamp: 5;
+  line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 .detail-synopsis-toggle {
   margin-top: var(--space-2);
   font-size: 0.8rem;
@@ -988,7 +1064,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   gap: 4px;
 }
 
-/* Trailer embed */
 .detail-trailer {
   width: 100%;
   aspect-ratio: 16/9;
@@ -997,14 +1072,12 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border: 1px solid var(--border);
   margin-top: var(--space-3);
 }
-
 .detail-trailer iframe {
   width: 100%;
   height: 100%;
   border: none;
 }
 
-/* Related / character tags */
 .detail-tags {
   display: flex;
   flex-wrap: wrap;
@@ -1020,14 +1093,12 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   padding: var(--space-4);
   margin-top: var(--space-4);
 }
-
 .review-card__header {
   display: flex;
   align-items: center;
   gap: var(--space-3);
   margin-bottom: var(--space-3);
 }
-
 .review-card__avatar {
   width: 40px;
   height: 40px;
@@ -1035,13 +1106,11 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   object-fit: cover;
   background: var(--surface-3);
 }
-
 .review-card__stars {
   color: #f5c518;
   font-size: 0.9rem;
   letter-spacing: 2px;
 }
-
 .review-card__body {
   color: var(--text-muted);
   font-size: 0.9rem;
@@ -1055,7 +1124,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   padding: var(--space-5);
   margin-top: var(--space-4);
 }
-
 .review-form textarea {
   width: 100%;
   min-height: 100px;
@@ -1077,7 +1145,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   gap: var(--space-1);
   margin: var(--space-3) 0;
 }
-
 .star-picker span {
   font-size: 1.5rem;
   color: var(--text-faint);
@@ -1092,9 +1159,7 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   transform: scale(1.1);
 }
 
-/* ============================================================
-   11. BROWSE / FILTERS
-   ============================================================ */
+/* Browse and filters */
 .browse-page {
   padding: var(--space-6);
 }
@@ -1110,7 +1175,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border-radius: var(--radius-lg);
   margin-bottom: var(--space-5);
 }
-
 .filters-bar label {
   font-size: 0.8rem;
   font-weight: 600;
@@ -1118,7 +1182,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
-
 .filters-bar select,
 .filters-bar input[type="text"] {
   padding: 8px 12px;
@@ -1132,33 +1195,16 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   appearance: none;
   -webkit-appearance: none;
 }
-
 .filters-bar select:focus,
 .filters-bar input[type="text"]:focus {
   outline: none;
   border-color: var(--red);
 }
-
 .filters-bar select option {
   background: var(--surface-2);
 }
-
 .filters-bar__reset {
   margin-left: auto;
-}
-
-/* Anime grid (browse) */
-.anime-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: var(--space-4);
-}
-
-/* List view alternative */
-.anime-list-view {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
 }
 
 .anime-list-item {
@@ -1176,17 +1222,12 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border-color: var(--red);
   transform: translateX(4px);
 }
-
 .anime-list-item__img {
   width: 60px;
   height: 80px;
   object-fit: cover;
   border-radius: var(--radius);
   flex-shrink: 0;
-}
-
-.anime-list-item__body {
-  flex: 1;
 }
 .anime-list-item__title {
   font-weight: 600;
@@ -1201,13 +1242,10 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   color: var(--text-faint);
 }
 
-/* ============================================================
-   12. GENRES PAGE
-   ============================================================ */
+/* Genres */
 .genres-page {
   padding: var(--space-6);
 }
-
 .genres-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -1217,65 +1255,76 @@ body[data-auth="true"] [data-show-when="logged-out"] {
 
 .genre-card {
   position: relative;
-  padding: var(--space-5) var(--space-4);
-  background: var(--surface);
-  border: 1px solid var(--border);
+  height: 120px;
   border-radius: var(--radius-lg);
-  text-align: center;
-  transition:
-    transform var(--transition),
-    border-color var(--transition),
-    background var(--transition),
-    box-shadow var(--transition);
   overflow: hidden;
   cursor: pointer;
-}
-
-.genre-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--red-glow), transparent 70%);
-  opacity: 0;
-  transition: opacity var(--transition);
+  border: 1px solid var(--border);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .genre-card:hover {
-  border-color: var(--red);
   transform: translateY(-4px);
   box-shadow: var(--shadow-red);
 }
 
-.genre-card:hover::before {
-  opacity: 1;
+.genre-card__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform var(--transition-slow);
 }
 
-.genre-card__icon {
-  font-size: 1.8rem;
-  margin-bottom: var(--space-2);
+.genre-card:hover .genre-card__bg {
+  transform: scale(1.06);
+}
+
+.genre-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 30%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  transition: background var(--transition);
+}
+
+.genre-card:hover .genre-card__overlay {
+  background: linear-gradient(
+    to top,
+    rgba(229, 9, 20, 0.75) 0%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
 }
 
 .genre-card__name {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--text);
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
   font-family: "Syne", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  z-index: 1;
 }
 
 .genre-card__count {
-  font-size: 0.75rem;
-  color: var(--text-faint);
-  margin-top: 2px;
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.6);
+  z-index: 1;
 }
 
-/* ============================================================
-   13. SAVED / WATCHLIST PAGE
-   ============================================================ */
+/* Watchlist */
 .watchlist-page {
   padding: var(--space-6);
 }
-
-/* Status tabs */
 .watchlist-tabs {
   display: flex;
   gap: var(--space-2);
@@ -1283,7 +1332,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border-bottom: 1px solid var(--border);
   padding-bottom: var(--space-3);
 }
-
 .watchlist-tab {
   padding: 8px 18px;
   border-radius: var(--radius-full);
@@ -1302,13 +1350,11 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   color: #fff;
 }
 
-/* Watchlist table */
 .watchlist-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
 }
-
 .watchlist-table th {
   text-align: left;
   padding: var(--space-3) var(--space-4);
@@ -1319,18 +1365,15 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border-bottom: 1px solid var(--border);
   font-weight: 600;
 }
-
 .watchlist-table td {
   padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--border);
   color: var(--text-muted);
   vertical-align: middle;
 }
-
 .watchlist-table tr:hover td {
   background: var(--surface);
 }
-
 .watchlist-table td:first-child {
   padding-left: 0;
 }
@@ -1340,7 +1383,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   align-items: center;
   gap: var(--space-3);
 }
-
 .watchlist-anime-thumb img {
   width: 48px;
   height: 64px;
@@ -1348,7 +1390,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border-radius: var(--radius-sm);
   flex-shrink: 0;
 }
-
 .watchlist-anime-thumb span {
   font-weight: 600;
   color: var(--text);
@@ -1358,7 +1399,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   color: var(--red);
 }
 
-/* Progress bar in watchlist */
 .progress-bar {
   height: 4px;
   background: var(--surface-3);
@@ -1366,7 +1406,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   overflow: hidden;
   width: 80px;
 }
-
 .progress-bar__fill {
   height: 100%;
   background: var(--red);
@@ -1374,7 +1413,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   transition: width 0.3s ease;
 }
 
-/* Status badge */
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -1386,7 +1424,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-
 .status-badge--watching {
   background: rgba(59, 130, 246, 0.15);
   color: #60a5fa;
@@ -1408,9 +1445,7 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   color: #fbbf24;
 }
 
-/* ============================================================
-   14. AUTH PAGES (Login / Register)
-   ============================================================ */
+/* Auth */
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -1436,7 +1471,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   box-shadow: var(--shadow-lg);
   animation: fade-up 0.3s ease;
 }
-
 .auth-card__logo {
   text-align: center;
   margin-bottom: var(--space-5);
@@ -1447,13 +1481,11 @@ body[data-auth="true"] [data-show-when="logged-out"] {
 .auth-card__logo span {
   color: var(--red);
 }
-
 .auth-card__title {
   font-size: 1.3rem;
   text-align: center;
   margin-bottom: 4px;
 }
-
 .auth-card__sub {
   text-align: center;
   color: var(--text-faint);
@@ -1461,11 +1493,9 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   margin-bottom: var(--space-6);
 }
 
-/* Form fields */
 .form-group {
   margin-bottom: var(--space-4);
 }
-
 .form-group label {
   display: block;
   font-size: 0.8rem;
@@ -1475,7 +1505,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-
 .form-group input {
   width: 100%;
   padding: 11px 14px;
@@ -1488,17 +1517,14 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     border-color var(--transition),
     box-shadow var(--transition);
 }
-
 .form-group input:focus {
   outline: none;
   border-color: var(--red);
   box-shadow: 0 0 0 3px var(--red-glow);
 }
-
 .form-group input::placeholder {
   color: var(--text-faint);
 }
-
 .form-error {
   font-size: 0.78rem;
   color: var(--red);
@@ -1521,7 +1547,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   color: var(--text-faint);
   font-size: 0.8rem;
 }
-
 .auth-divider::before,
 .auth-divider::after {
   content: "";
@@ -1558,7 +1583,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   font-size: 0.875rem;
   color: var(--text-muted);
 }
-
 .auth-switch a {
   color: var(--red);
   font-weight: 600;
@@ -1567,15 +1591,12 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   text-decoration: underline;
 }
 
-/* ============================================================
-   15. PROFILE PAGE
-   ============================================================ */
+/* Profile */
 .profile-page {
   padding: var(--space-6);
   max-width: 1100px;
   margin: 0 auto;
 }
-
 .profile-header {
   display: flex;
   align-items: flex-end;
@@ -1584,11 +1605,9 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border-bottom: 1px solid var(--border);
   margin-bottom: var(--space-6);
 }
-
 .profile-avatar-wrap {
   position: relative;
 }
-
 .profile-avatar {
   width: 96px;
   height: 96px;
@@ -1596,7 +1615,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border: 3px solid var(--red);
   object-fit: cover;
 }
-
 .profile-avatar-edit {
   position: absolute;
   bottom: 0;
@@ -1613,34 +1631,28 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   cursor: pointer;
   border: 2px solid var(--bg);
 }
-
 .profile-info__name {
   font-size: 1.6rem;
   margin-bottom: 2px;
 }
-
 .profile-info__handle {
   font-size: 0.875rem;
   color: var(--text-faint);
 }
-
 .profile-stats {
   display: flex;
   gap: var(--space-5);
   margin-left: auto;
 }
-
 .profile-stat {
   text-align: center;
 }
-
 .profile-stat__num {
   font-family: "Syne", sans-serif;
   font-size: 1.4rem;
   font-weight: 800;
   color: var(--text);
 }
-
 .profile-stat__label {
   font-size: 0.72rem;
   color: var(--text-faint);
@@ -1648,15 +1660,12 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   letter-spacing: 0.06em;
 }
 
-/* ============================================================
-   16. SOCIAL PAGE
-   ============================================================ */
+/* Social */
 .social-page {
   padding: var(--space-6);
   max-width: 900px;
   margin: 0 auto;
 }
-
 .feed-item {
   display: flex;
   gap: var(--space-4);
@@ -1664,7 +1673,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   border-bottom: 1px solid var(--border);
   animation: fade-up 0.3s ease both;
 }
-
 .feed-item__avatar {
   width: 40px;
   height: 40px;
@@ -1672,11 +1680,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   object-fit: cover;
   flex-shrink: 0;
 }
-
-.feed-item__content {
-  flex: 1;
-}
-
 .feed-item__name {
   font-weight: 600;
   color: var(--text);
@@ -1685,12 +1688,10 @@ body[data-auth="true"] [data-show-when="logged-out"] {
 .feed-item__name:hover {
   color: var(--red);
 }
-
 .feed-item__action {
   font-size: 0.875rem;
   color: var(--text-muted);
 }
-
 .feed-item__anime-link {
   font-weight: 600;
   color: var(--text);
@@ -1699,13 +1700,11 @@ body[data-auth="true"] [data-show-when="logged-out"] {
 .feed-item__anime-link:hover {
   color: var(--red);
 }
-
 .feed-item__time {
   font-size: 0.75rem;
   color: var(--text-faint);
   margin-top: 2px;
 }
-
 .feed-item__thumb {
   width: 42px;
   height: 56px;
@@ -1714,7 +1713,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   flex-shrink: 0;
 }
 
-/* User search / follow */
 .user-card {
   display: flex;
   align-items: center;
@@ -1728,14 +1726,12 @@ body[data-auth="true"] [data-show-when="logged-out"] {
 .user-card:hover {
   border-color: var(--red);
 }
-
 .user-card__avatar {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-full);
   object-fit: cover;
 }
-
 .user-card__name {
   font-weight: 600;
   font-size: 0.9rem;
@@ -1744,7 +1740,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   font-size: 0.78rem;
   color: var(--text-faint);
 }
-
 .user-card .btn--follow {
   margin-left: auto;
 }
@@ -1771,9 +1766,7 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   color: var(--red);
 }
 
-/* ============================================================
-   17. MODALS & TOASTS
-   ============================================================ */
+/* Modals and toasts */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1786,7 +1779,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   padding: var(--space-5);
   animation: fade-in 0.15s ease;
 }
-
 .modal {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -1797,18 +1789,15 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   box-shadow: var(--shadow-lg);
   animation: scale-up 0.2s ease;
 }
-
 .modal__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-5);
 }
-
 .modal__title {
   font-size: 1.15rem;
 }
-
 .modal__close {
   width: 28px;
   height: 28px;
@@ -1828,7 +1817,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   color: var(--red);
 }
 
-/* Toast notifications */
 .toast-container {
   position: fixed;
   bottom: var(--space-5);
@@ -1839,7 +1827,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   gap: var(--space-2);
   pointer-events: none;
 }
-
 .toast {
   pointer-events: all;
   display: flex;
@@ -1855,7 +1842,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   font-size: 0.875rem;
   font-weight: 500;
 }
-
 .toast--success {
   border-left: 3px solid #4ade80;
 }
@@ -1865,14 +1851,11 @@ body[data-auth="true"] [data-show-when="logged-out"] {
 .toast--info {
   border-left: 3px solid #60a5fa;
 }
-
 .toast.removing {
   animation: slide-out-right 0.2s ease forwards;
 }
 
-/* ============================================================
-   18. PAGINATION
-   ============================================================ */
+/* Pagination */
 .pagination {
   display: flex;
   align-items: center;
@@ -1880,7 +1863,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   gap: var(--space-1);
   padding: var(--space-6) 0;
 }
-
 .pagination__btn {
   min-width: 36px;
   height: 36px;
@@ -1896,35 +1878,29 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     color var(--transition),
     border-color var(--transition);
 }
-
 .pagination__btn:hover:not(:disabled) {
   background: var(--surface-2);
   color: var(--text);
   border-color: rgba(255, 255, 255, 0.15);
 }
-
 .pagination__btn.active {
   background: var(--red);
   color: #fff;
   border-color: var(--red);
 }
-
 .pagination__btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;
 }
-
 .pagination__ellipsis {
   color: var(--text-faint);
   padding: 0 var(--space-1);
   font-size: 0.875rem;
 }
 
-/* ============================================================
-   19. FOOTER
-   ============================================================ */
+/* Footer */
 .footer {
-  padding: var(--space-6) var(--space-6);
+  padding: var(--space-6);
   border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -1932,7 +1908,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   flex-wrap: wrap;
   gap: var(--space-3);
 }
-
 .footer__logo {
   font-family: "Syne", sans-serif;
   font-size: 1.1rem;
@@ -1941,19 +1916,15 @@ body[data-auth="true"] [data-show-when="logged-out"] {
 .footer__logo span {
   color: var(--red);
 }
-
 .footer p {
   font-size: 0.8rem;
   color: var(--text-faint);
 }
-
 .footer a:hover {
   color: var(--red);
 }
 
-/* ============================================================
-   20. SCROLLBAR
-   ============================================================ */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -1969,9 +1940,7 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   background: var(--red);
 }
 
-/* ============================================================
-   21. ANIMATIONS
-   ============================================================ */
+/* Animations */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -1980,7 +1949,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     opacity: 1;
   }
 }
-
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -1991,7 +1959,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     transform: translateY(0);
   }
 }
-
 @keyframes fade-down {
   from {
     opacity: 0;
@@ -2002,7 +1969,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     transform: translateY(0);
   }
 }
-
 @keyframes scale-up {
   from {
     opacity: 0;
@@ -2013,7 +1979,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     transform: scale(1);
   }
 }
-
 @keyframes slide-in-right {
   from {
     opacity: 0;
@@ -2024,7 +1989,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     transform: translateX(0);
   }
 }
-
 @keyframes slide-out-right {
   from {
     opacity: 1;
@@ -2035,7 +1999,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     transform: translateX(20px);
   }
 }
-
 @keyframes skeleton-shimmer {
   0% {
     background-position: 200% 0;
@@ -2045,7 +2008,6 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   }
 }
 
-/* Staggered card entrance */
 .anime-card {
   animation: fade-up 0.3s ease both;
 }
@@ -2077,15 +2039,17 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   animation-delay: 0.27s;
 }
 
-/* ============================================================
-   22. MEDIA QUERIES
-   ============================================================ */
-
 /* Tablet */
 @media (max-width: 1024px) {
   .detail-layout {
     grid-template-columns: 180px 1fr;
     gap: var(--space-5);
+  }
+  .hero__poster {
+    max-width: 200px;
+  }
+  .hero__poster-wrap {
+    right: 100px;
   }
 }
 
@@ -2095,19 +2059,16 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     --nav-h: 58px;
   }
 
-  /* Navbar collapses */
   .navbar {
     padding: 0 var(--space-4);
     flex-wrap: wrap;
     height: auto;
     min-height: var(--nav-h);
   }
-
   .navbar__links,
   .navbar__right {
     display: none;
   }
-
   .navbar__links.open,
   .navbar__right.open {
     display: flex;
@@ -2116,63 +2077,81 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     padding: var(--space-3) 0;
     gap: var(--space-2);
   }
-
   .navbar__hamburger {
     display: flex;
   }
-
   .navbar__search input {
     width: 140px;
   }
 
-  /* Hero */
   .hero {
-    min-height: 360px;
-    padding: var(--space-6) var(--space-4);
+    height: auto;
+    min-height: 500px;
+    padding: var(--space-6) var(--space-4) var(--space-6);
+    align-items: flex-end;
+  }
+  .hero__poster-wrap {
+    display: none;
+  } /* bg image is sufficient on mobile */
+  .hero__overlay {
+    background: linear-gradient(
+      to top,
+      rgba(10, 10, 14, 0.97) 25%,
+      rgba(10, 10, 14, 0.6) 60%,
+      transparent 100%
+    );
+  }
+  .hero__trailer-wrap iframe {
+    width: 95%;
+  }
+  .hero__arrow--prev {
+    top: calc(50% - 26px);
+    right: var(--space-3);
+  }
+  .hero__arrow--next {
+    top: calc(50% + 6px);
+    right: var(--space-3);
   }
 
-  /* Content */
+  .row__cards .anime-card {
+    flex: 0 0 130px;
+    width: 130px;
+  }
+  .row__arrow {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+
   .content {
     padding: var(--space-4);
     gap: var(--space-6);
   }
 
-  /* Detail page stacks */
   .detail-layout {
     grid-template-columns: 1fr;
   }
-
   .detail-poster__img {
     max-width: 200px;
   }
-
   .detail-poster {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-
-  /* Browse */
   .browse-page {
     padding: var(--space-4);
   }
-
   .filters-bar {
     flex-direction: column;
     align-items: flex-start;
   }
-
-  /* Genres */
   .genres-grid {
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   }
-
-  /* Auth */
   .auth-card {
     padding: var(--space-5);
   }
-
-  /* Profile stats inline */
   .profile-header {
     flex-direction: column;
     align-items: flex-start;
@@ -2180,19 +2159,10 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   .profile-stats {
     margin-left: 0;
   }
-
-  /* Footer */
   .footer {
     flex-direction: column;
     text-align: center;
   }
-
-  /* Watchlist table — scrollable */
-  .watchlist-table-wrap {
-    overflow-x: auto;
-  }
-
-  /* Pagination */
   .pagination {
     gap: 2px;
   }
@@ -2201,23 +2171,12 @@ body[data-auth="true"] [data-show-when="logged-out"] {
     height: 32px;
     font-size: 0.8rem;
   }
-}
-
-@media (max-width: 480px) {
-  .anime-grid {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: var(--space-3);
+  .watchlist-table-wrap {
+    overflow-x: auto;
   }
-
-  .hero__actions {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   .watchlist-tabs {
     flex-wrap: wrap;
   }
-
   .toast-container {
     left: var(--space-4);
     right: var(--space-4);
@@ -2226,5 +2185,16 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   .toast {
     min-width: unset;
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .anime-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: var(--space-3);
+  }
+  .hero__actions {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

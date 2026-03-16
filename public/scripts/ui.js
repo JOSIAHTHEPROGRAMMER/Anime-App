@@ -4,18 +4,18 @@ import { Watchlist, Auth } from './api.js';
 export function createAnimeCard(anime) {
   const card = document.createElement('a');
   card.className = 'anime-card';
-  card.href = `/frontend/pages/anime.html?id=${anime.mal_id}`;
+  card.href = `/public/pages/anime.html?id=${anime.mal_id}`;
 
-  const score   = anime.score ? `⭐ ${anime.score}` : '';
-  const airing  = anime.airing ? '<span class="anime-card__airing">Airing</span>' : '';
-  const image   = anime.images?.jpg?.image_url ?? '';
-  const type    = anime.type ?? '';
-  const year    = anime.year ?? anime.aired?.prop?.from?.year ?? '';
+  const score = anime.score ? `⭐ ${anime.score}` : '';
+  const airing = anime.airing ? '<span class="anime-card__airing">Airing</span>' : '';
+  const image = anime.images?.jpg?.image_url ?? '';
+  const type = anime.type ?? '';
+  const year = anime.year ?? anime.aired?.prop?.from?.year ?? '';
 
   card.innerHTML = `
     <div class="anime-card__img-wrap">
       <img class="anime-card__img" src="${image}" alt="${anime.title}" loading="lazy" />
-      ${score  ? `<span class="anime-card__score">${score}</span>` : ''}
+      ${score ? `<span class="anime-card__score">${score}</span>` : ''}
       ${airing}
       ${Auth.isLoggedIn() ? `<button class="anime-card__add" data-id="${anime.mal_id}" title="Add to watchlist">+</button>` : ''}
     </div>
@@ -49,18 +49,18 @@ export function renderCards(container, animeList) {
 async function quickAddToWatchlist(anime, btn) {
   try {
     await Watchlist.upsert({
-      malId:          anime.mal_id,
-      title:          anime.title,
-      imageUrl:       anime.images?.jpg?.image_url ?? '',
-      totalEpisodes:  anime.episodes ?? 0,
-      status:         'planning',
-      progress:       0,
+      malId: anime.mal_id,
+      title: anime.title,
+      imageUrl: anime.images?.jpg?.image_url ?? '',
+      totalEpisodes: anime.episodes ?? 0,
+      status: 'planning',
+      progress: 0,
     });
     btn.classList.add('saved');
     btn.textContent = '✓';
     showToast('Added to watchlist', 'success');
   } catch {
-    showToast('Failed to add — are you logged in?', 'error');
+    showToast('Failed to add - are you logged in?', 'error');
   }
 }
 
@@ -97,7 +97,7 @@ export function showToast(message, type = 'info', duration = 3000) {
   }, duration);
 }
 
-// Pagination — calls onPage(pageNumber) when a button is clicked
+// Pagination - calls onPage(pageNumber) when a button is clicked
 export function renderPagination(container, currentPage, lastPage, onPage) {
   container.innerHTML = '';
   if (lastPage <= 1) return;
@@ -142,7 +142,7 @@ function getPaginationRange(current, last) {
     range.push(i);
   }
 
-  if (current - delta > 2)    range.unshift('...');
+  if (current - delta > 2) range.unshift('...');
   if (current + delta < last - 1) range.push('...');
 
   range.unshift(1);
@@ -151,7 +151,7 @@ function getPaginationRange(current, last) {
   return range;
 }
 
-// Generic empty state — drop into any container
+// Generic empty state - drop into any container
 export function renderEmpty(container, message = 'Nothing here yet.') {
   container.innerHTML = `
     <div style="text-align:center;padding:48px 0;color:var(--text-faint);">

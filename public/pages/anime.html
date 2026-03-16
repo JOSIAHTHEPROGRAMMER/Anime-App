@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anime - WGWAnime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="../index.html" class="navbar__logo">WGW<span>Anime</span></a>
+
+    <nav class="navbar__links">
+      <a href="./genres.html">Genres</a>
+      <div class="navbar__dropdown">
+        <button class="navbar__dropdown-btn">Types ▾</button>
+        <ul class="navbar__dropdown-menu">
+          <li><a href="./browse.html?type=tv">TV</a></li>
+          <li><a href="./browse.html?type=movie">Movie</a></li>
+          <li><a href="./browse.html?type=ova">OVA</a></li>
+          <li><a href="./browse.html?type=ona">ONA</a></li>
+          <li><a href="./browse.html?type=special">Special</a></li>
+        </ul>
+      </div>
+      <a href="./saved.html">My List</a>
+    </nav>
+
+    <div class="navbar__right">
+      <form class="navbar__search" id="searchForm">
+        <input type="text" id="searchInput" placeholder="Search anime…" autocomplete="off" />
+        <button type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+      </form>
+      <div class="navbar__auth" data-show-when="logged-out">
+        <a href="./login.html" class="btn btn--ghost">Log in</a>
+        <a href="./register.html" class="btn btn--primary">Sign up</a>
+      </div>
+      <div class="navbar__user" data-show-when="logged-in">
+        <img id="userAvatar" class="navbar__avatar" src="" alt="avatar" />
+        <span id="userDisplayName"></span>
+        <button id="logoutBtn" class="btn btn--ghost btn--sm">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <div class="detail-banner">
+    <img id="detailBannerImg" class="detail-banner__img" src="" alt="" />
+    <div class="detail-banner__fade"></div>
+  </div>
+
+  <!-- Main layout -->
+  <div class="detail-layout">
+
+    <!-- Left: poster + actions -->
+    <aside class="detail-poster">
+      <img id="detailPoster" class="detail-poster__img" src="" alt="" />
+      <div class="detail-poster__actions">
+        <button class="btn btn--primary" id="watchlistBtn">+ Add to List</button>
+        <button class="btn btn--ghost"   id="trailerBtn" style="display:none">▶ Trailer</button>
+      </div>
+
+      <!-- Watchlist status picker (hidden until added) -->
+      <div class="watchlist-status-wrap" id="watchlistStatusWrap" style="display:none">
+        <select class="watchlist-status-select" id="watchlistStatus">
+          <option value="watching">Watching</option>
+          <option value="completed">Completed</option>
+          <option value="planning">Plan to Watch</option>
+          <option value="paused">On Hold</option>
+          <option value="dropped">Dropped</option>
+        </select>
+        <div class="watchlist-progress" id="watchlistProgressWrap">
+          <label>Ep progress</label>
+          <div class="progress-input-row">
+            <input type="number" id="watchlistProgress" min="0" value="0" />
+            <span id="watchlistTotal"></span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-bar__fill" id="progressFill"></div>
+          </div>
+        </div>
+        <button class="btn btn--surface btn--sm" id="removeFromList">Remove from list</button>
+      </div>
+    </aside>
+
+    <!-- Right: info -->
+    <main class="detail-info">
+
+      <div class="detail-info__titles">
+        <h1 class="detail-info__title" id="detailTitle"></h1>
+        <p class="detail-info__title-en" id="detailTitleEn"></p>
+      </div>
+
+      <div class="detail-info__meta" id="detailMeta"></div>
+
+      <!-- Stats grid -->
+      <div class="detail-stats" id="detailStats"></div>
+
+      <!-- Synopsis -->
+      <div class="detail-section">
+        <h3>Synopsis</h3>
+        <p class="detail-synopsis collapsed" id="detailSynopsis"></p>
+        <span class="detail-synopsis-toggle" id="synopsisToggle">Show more ▾</span>
+      </div>
+
+      <!-- Trailer embed -->
+      <div class="detail-section" id="trailerSection" style="display:none">
+        <h3>Trailer</h3>
+        <div class="detail-trailer">
+          <iframe id="detailTrailer" src="" allowfullscreen allow="autoplay"></iframe>
+        </div>
+      </div>
+
+      <!-- Genres / themes -->
+      <div class="detail-section" id="tagsSection">
+        <h3>Genres</h3>
+        <div class="detail-tags" id="detailGenres"></div>
+      </div>
+
+      <!-- Studios -->
+      <div class="detail-section" id="studiosSection">
+        <h3>Studios</h3>
+        <div class="detail-tags" id="detailStudios"></div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="detail-section" id="reviewsSection">
+        <h3>Reviews</h3>
+
+        <!-- Write a review (logged in only) -->
+        <div class="review-form" id="reviewForm" data-show-when="logged-in">
+          <div class="star-picker" id="starPicker">
+            <span data-val="1">★</span><span data-val="2">★</span>
+            <span data-val="3">★</span><span data-val="4">★</span>
+            <span data-val="5">★</span><span data-val="6">★</span>
+            <span data-val="7">★</span><span data-val="8">★</span>
+            <span data-val="9">★</span><span data-val="10">★</span>
+          </div>
+          <textarea id="reviewText" placeholder="Write your review…"></textarea>
+          <button class="btn btn--primary btn--sm" id="submitReview" style="margin-top:12px">Post Review</button>
+        </div>
+
+        <div id="reviewsList"></div>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="detail-section" id="recsSection">
+        <h3>You Might Also Like</h3>
+        <div class="row__cards" id="recsList"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Trailer modal -->
+  <div class="hero__trailer-wrap" id="trailerModal">
+    <button class="hero__trailer-close" id="trailerModalClose">✕</button>
+    <iframe id="trailerModalFrame" src="" allowfullscreen allow="autoplay"></iframe>
+  </div>
+
+  <footer class="footer">
+    <span class="footer__logo">WGW<span>Anime</span></span>
+    <p>Powered by <a href="https://jikan.moe/" target="_blank">Jikan API</a></p>
+  </footer>
+
+  <script type="module" src="../scripts/auth.js"></script>
+  <script type="module" src="../scripts/anime.js"></script>
+  <script type="module" src="../scripts/search.js"></script>
+
+</body>
+</html>

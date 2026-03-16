@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse - WGWAnime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="../index.html" class="navbar__logo">WGW<span>Anime</span></a>
+
+    <nav class="navbar__links">
+      <a href="./genres.html">Genres</a>
+      <div class="navbar__dropdown">
+        <button class="navbar__dropdown-btn">Types ▾</button>
+        <ul class="navbar__dropdown-menu">
+          <li><a href="./browse.html?type=tv">TV</a></li>
+          <li><a href="./browse.html?type=movie">Movie</a></li>
+          <li><a href="./browse.html?type=ova">OVA</a></li>
+          <li><a href="./browse.html?type=ona">ONA</a></li>
+          <li><a href="./browse.html?type=special">Special</a></li>
+        </ul>
+      </div>
+      <a href="./saved.html">My List</a>
+    </nav>
+
+    <div class="navbar__right">
+      <form class="navbar__search" id="searchForm">
+        <input type="text" id="searchInput" placeholder="Search anime…" autocomplete="off" />
+        <button type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+      </form>
+
+      <div class="navbar__auth" data-show-when="logged-out">
+        <a href="./login.html" class="btn btn--ghost">Log in</a>
+        <a href="./register.html" class="btn btn--primary">Sign up</a>
+      </div>
+
+      <div class="navbar__user" data-show-when="logged-in">
+        <img id="userAvatar" class="navbar__avatar" src="" alt="avatar" />
+        <span id="userDisplayName"></span>
+        <button id="logoutBtn" class="btn btn--ghost btn--sm">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="browse-page">
+
+    <div class="browse-page__header">
+      <h2 id="browseHeading">Browse Anime</h2>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-bar">
+      <div class="filters-bar__group">
+        <label for="filterType">Type</label>
+        <select id="filterType">
+          <option value="">All</option>
+          <option value="tv">TV</option>
+          <option value="movie">Movie</option>
+          <option value="ova">OVA</option>
+          <option value="ona">ONA</option>
+          <option value="special">Special</option>
+        </select>
+      </div>
+
+      <div class="filters-bar__group">
+        <label for="filterStatus">Status</label>
+        <select id="filterStatus">
+          <option value="">All</option>
+          <option value="airing">Airing</option>
+          <option value="complete">Completed</option>
+          <option value="upcoming">Upcoming</option>
+        </select>
+      </div>
+
+      <div class="filters-bar__group">
+        <label for="filterRating">Rating</label>
+        <select id="filterRating">
+          <option value="">All</option>
+          <option value="g">G</option>
+          <option value="pg">PG</option>
+          <option value="pg13">PG-13</option>
+          <option value="r17">R-17+</option>
+          <option value="r">R</option>
+        </select>
+      </div>
+
+      <div class="filters-bar__group">
+        <label for="filterOrder">Sort by</label>
+        <select id="filterOrder">
+          <option value="score">Score</option>
+          <option value="popularity">Popularity</option>
+          <option value="title">Title</option>
+          <option value="start_date">Date</option>
+          <option value="episodes">Episodes</option>
+        </select>
+      </div>
+
+      <div class="filters-bar__group">
+        <label for="filterSort">Order</label>
+        <select id="filterSort">
+          <option value="desc">Desc</option>
+          <option value="asc">Asc</option>
+        </select>
+      </div>
+
+      <button class="btn btn--ghost btn--sm filters-bar__reset" id="resetFilters">Reset</button>
+    </div>
+
+    <!-- Results -->
+    <div class="anime-grid" id="browseGrid"></div>
+
+    <!-- Pagination -->
+    <div class="pagination" id="browsePagination"></div>
+
+  </div>
+
+  <footer class="footer">
+    <span class="footer__logo">WGW<span>Anime</span></span>
+    <p>Powered by <a href="https://jikan.moe/" target="_blank">Jikan API</a></p>
+  </footer>
+
+  <script type="module" src="../scripts/auth.js"></script>
+  <script type="module" src="../scripts/browse.js"></script>
+  <script type="module" src="../scripts/search.js"></script>
+
+</body>
+</html>

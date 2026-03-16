@@ -13,7 +13,7 @@
 
   <!-- NAVBAR -->
   <header class="navbar">
-    <a href="/frontend/index.html" class="navbar__logo">WGW<span>Anime</span></a>
+    <a href="index.html" class="navbar__logo">WGW<span>Anime</span></a>
 
     <nav class="navbar__links">
       <a href="./pages/genres.html">Genres</a>
@@ -58,11 +58,34 @@
 
   <!-- HERO -->
   <section class="hero" id="heroSection">
-    <div class="hero__text">
-      <h1>Your anime universe,<br/><span>all in one place.</span></h1>
-      <p>Track, discover, and explore anime across every season and genre.</p>
-      <a href="./pages/genres.html" class="btn btn--primary btn--lg">Browse Genres</a>
+
+    <div class="hero__bg" id="heroBg"></div>
+
+    <!-- Muted hover preview iframe -->
+    <iframe class="hero__hover-frame" id="heroHoverFrame" src="" allowfullscreen allow="autoplay"></iframe>
+
+    <div class="hero__overlay"></div>
+
+    <div class="hero__content">
+      <span class="hero__spotlight" id="heroSpotlight"></span>
+      <h1 class="hero__title" id="heroTitle"></h1>
+      <div class="hero__meta" id="heroMeta"></div>
+      <p class="hero__synopsis" id="heroSynopsis"></p>
+      <div class="hero__actions">
+        <a id="heroDetailBtn" href="#" class="btn btn--primary btn--lg">Detail →</a>
+        <button id="heroTrailerBtn" class="btn btn--ghost btn--lg" style="display:none">▶ Trailer</button>
+      </div>
     </div>
+
+    <!-- Poster on the right -->
+    <div class="hero__poster-wrap">
+      <img id="heroPoster" class="hero__poster" src="" alt="" />
+    </div>
+
+    <button class="hero__arrow hero__arrow--prev" id="heroPrev">&#8249;</button>
+    <button class="hero__arrow hero__arrow--next" id="heroNext">&#8250;</button>
+    <div class="hero__dots" id="heroDots"></div>
+
   </section>
 
   <!-- MAIN CONTENT -->
@@ -72,10 +95,12 @@
     <section class="row" id="seasonNow">
       <div class="row__header">
         <h2>Currently Airing</h2>
-        <a href="./pages/displayAnimes.html?filter=airing" class="row__see-all">See all →</a>
+        <a href="./pages/displayAnimes.html?filter=airing" class="row__see-all">See all</a>
       </div>
-      <div class="row__cards" id="seasonNowList">
-        <!-- populated by scripts/home.js -->
+      <div class="row__slider-wrap">
+        <button class="row__arrow row__arrow--prev" id="seasonNowPrev">&#8249;</button>
+        <div class="row__cards" id="seasonNowList"></div>
+        <button class="row__arrow row__arrow--next" id="seasonNowNext">&#8250;</button>
       </div>
     </section>
 
@@ -83,27 +108,36 @@
     <section class="row" id="upcoming">
       <div class="row__header">
         <h2>Upcoming This Season</h2>
-        <a href="./pages/displayAnimes.html?filter=upcoming" class="row__see-all">See all →</a>
+        <a href="./pages/displayAnimes.html?filter=upcoming" class="row__see-all">See all</a>
       </div>
-      <div class="row__cards" id="upcomingList"></div>
+      <div class="row__slider-wrap">
+        <button class="row__arrow row__arrow--prev" id="upcomingPrev">&#8249;</button>
+        <div class="row__cards" id="upcomingList"></div>
+        <button class="row__arrow row__arrow--next" id="upcomingNext">&#8250;</button>
+      </div>
     </section>
 
     <!-- Same Season Last Year -->
     <section class="row" id="prevYear">
       <div class="row__header">
         <h2>This Season Last Year</h2>
-        <a href="./pages/displayAnimes.html?filter=prevyear" class="row__see-all">See all →</a>
+        <a href="./pages/displayAnimes.html?filter=prevyear" class="row__see-all">See all</a>
       </div>
-      <div class="row__cards" id="prevYearList"></div>
+      <div class="row__slider-wrap">
+        <button class="row__arrow row__arrow--prev" id="prevYearPrev">&#8249;</button>
+        <div class="row__cards" id="prevYearList"></div>
+        <button class="row__arrow row__arrow--next" id="prevYearNext">&#8250;</button>
+      </div>
     </section>
 
   </main>
 
   <footer class="footer">
-    <p>WGWAnime · Powered by <a href="https://jikan.moe/" target="_blank">Jikan API</a></p>
+    <span class="footer__logo">WGW<span>Anime</span></span>
+    <p>Powered by <a href="https://jikan.moe/" target="_blank">Jikan API</a></p>
   </footer>
 
-  <!-- Scripts — NO Firebase -->
+
   <script type="module" src="./scripts/auth.js"></script>
   <script type="module" src="./scripts/home.js"></script>
   <script type="module" src="./scripts/dropdown.js"></script>

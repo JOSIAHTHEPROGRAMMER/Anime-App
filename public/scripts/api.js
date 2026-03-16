@@ -1,22 +1,22 @@
-/* ============================================================
-   WGWAnime — api.js
+/* 
+   WGWAnime - api.js
    Central fetch layer. All network calls go through here.
 
    Sections:
    1. Config
    2. Core fetch helpers
    3. Jikan (anime data)
-   4. Backend — Auth
-   5. Backend — Watchlist
-   6. Backend — Reviews
-   7. Backend — Social
-   8. Backend — Recommendations
-   ============================================================ */
+   4. Backend - Auth
+   5. Backend - Watchlist
+   6. Backend - Reviews
+   7. Backend - Social
+   8. Backend - Recommendations
+    */
 
 
-/* ============================================================
+/* 
    1. CONFIG
-   ============================================================ */
+    */
 
 const JIKAN_BASE = 'https://api.jikan.moe/v4';
 
@@ -25,15 +25,15 @@ const JIKAN_BASE = 'https://api.jikan.moe/v4';
 const API_BASE = window.__WGW_API__ ?? 'http://localhost:3000/api';
 
 // Jikan rate-limits to ~3 req/s. This queue prevents 429s.
-const _queue   = [];
-let   _running = false;
+const _queue = [];
+let _running = false;
 
 async function _drainQueue() {
   if (_running) return;
   _running = true;
   while (_queue.length) {
     const { fn, resolve, reject } = _queue.shift();
-    try   { resolve(await fn()); }
+    try { resolve(await fn()); }
     catch (err) { reject(err); }
     await _sleep(350); // ~350 ms gap stays inside Jikan's limit
   }
@@ -52,9 +52,9 @@ function _jikanQueued(fn) {
 }
 
 
-/* ============================================================
+/* 
    2. CORE FETCH HELPERS
-   ============================================================ */
+    */
 
 /**
  * Raw fetch with structured error handling.
@@ -68,7 +68,7 @@ async function _fetch(url, options = {}) {
       const body = await res.json();
       message = body.message ?? body.error ?? message;
     } catch { /* ignore */ }
-    const err  = new Error(message);
+    const err = new Error(message);
     err.status = res.status;
     throw err;
   }
@@ -89,23 +89,23 @@ function _authFetch(path, options = {}) {
     ...options,
     headers: {
       ...(hasBody ? { 'Content-Type': 'application/json' } : {}),
-      ...(token   ? { 'Authorization': `Bearer ${token}` } : {}),
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...options.headers,
     },
     body: hasBody ? JSON.stringify(options.body) : undefined,
   });
 }
 
-const _get    = path       => _authFetch(path, { method: 'GET' });
-const _post   = (path, b)  => _authFetch(path, { method: 'POST',   body: b });
-const _patch  = (path, b)  => _authFetch(path, { method: 'PATCH',  body: b });
-const _delete = path       => _authFetch(path, { method: 'DELETE' });
+const _get = path => _authFetch(path, { method: 'GET' });
+const _post = (path, b) => _authFetch(path, { method: 'POST', body: b });
+const _patch = (path, b) => _authFetch(path, { method: 'PATCH', body: b });
+const _delete = path => _authFetch(path, { method: 'DELETE' });
 
 
-/* ============================================================
-   3. JIKAN — ANIME DATA (public, no auth)
+/* 
+   3. JIKAN - ANIME DATA (public, no auth)
    Docs: https://docs.api.jikan.moe/
-   ============================================================ */
+    */
 
 export const Jikan = {
 
@@ -185,10 +185,10 @@ export const Jikan = {
 };
 
 
-/* ============================================================
-   4. BACKEND — AUTH
+/* 
+   4. BACKEND - AUTH
    Replaces Firebase Auth. JWT stored in localStorage.
-   ============================================================ */
+    */
 
 export const Auth = {
 
@@ -209,7 +209,7 @@ export const Auth = {
     const res = await _post('/auth/login', data);
     if (res?.token) {
       localStorage.setItem('wgw_token', res.token);
-      localStorage.setItem('wgw_user',  JSON.stringify(res.user));
+      localStorage.setItem('wgw_user', JSON.stringify(res.user));
     }
     return res;
   },
@@ -243,7 +243,7 @@ export const Auth = {
 
   /** Returns the cached user object, or null */
   currentUser() {
-    try   { return JSON.parse(localStorage.getItem('wgw_user')) ?? null; }
+    try { return JSON.parse(localStorage.getItem('wgw_user')) ?? null; }
     catch { return null; }
   },
 
@@ -254,11 +254,11 @@ export const Auth = {
 };
 
 
-/* ============================================================
-   5. BACKEND — WATCHLIST
+/* 
+   5. BACKEND - WATCHLIST
    Replaces Firestore saves.
    Status values: 'watching' | 'completed' | 'dropped' | 'planning' | 'paused'
-   ============================================================ */
+    */
 
 export const Watchlist = {
 
@@ -305,7 +305,7 @@ export const Watchlist = {
    * @param {number} malId
    */
   async getEntry(malId) {
-    try   { return await _get(`/watchlist/${malId}`); }
+    try { return await _get(`/watchlist/${malId}`); }
     catch (err) {
       if (err.status === 404) return null;
       throw err;
@@ -314,9 +314,9 @@ export const Watchlist = {
 };
 
 
-/* ============================================================
-   6. BACKEND — REVIEWS & RATINGS
-   ============================================================ */
+/* 
+   6. BACKEND - REVIEWS & RATINGS
+    */
 
 export const Reviews = {
 
@@ -327,7 +327,7 @@ export const Reviews = {
 
   /** Current user's own review for an anime, or null */
   async getMyReview(malId) {
-    try   { return await _get(`/reviews/anime/${malId}/mine`); }
+    try { return await _get(`/reviews/anime/${malId}/mine`); }
     catch (err) {
       if (err.status === 404) return null;
       throw err;
@@ -358,16 +358,16 @@ export const Reviews = {
 };
 
 
-/* ============================================================
-   7. BACKEND — SOCIAL
-   ============================================================ */
+/* 
+   7. BACKEND - SOCIAL
+    */
 
 export const Social = {
 
-  follow(userId)   { return _post(`/social/follow/${userId}`);   },
+  follow(userId) { return _post(`/social/follow/${userId}`); },
   unfollow(userId) { return _delete(`/social/follow/${userId}`); },
 
-  /** Activity feed — actions from followed users */
+  /** Activity feed - actions from followed users */
   feed(page = 1) {
     return _get(`/social/feed?page=${page}`);
   },
@@ -392,11 +392,11 @@ export const Social = {
 };
 
 
-/* ============================================================
-   8. BACKEND — AI RECOMMENDATIONS
+/* 
+   8. BACKEND - AI RECOMMENDATIONS
    Backend queries our AI service using the user's watchlist
    + ratings to surface personalised suggestions.
-   ============================================================ */
+    */
 
 export const Recommendations = {
 

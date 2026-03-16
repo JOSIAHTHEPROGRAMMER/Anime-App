@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My List - WGWAnime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="../index.html" class="navbar__logo">WGW<span>Anime</span></a>
+    <nav class="navbar__links">
+      <a href="./genres.html">Genres</a>
+      <div class="navbar__dropdown">
+        <button class="navbar__dropdown-btn">Types ▾</button>
+        <ul class="navbar__dropdown-menu">
+          <li><a href="./browse.html?type=tv">TV</a></li>
+          <li><a href="./browse.html?type=movie">Movie</a></li>
+          <li><a href="./browse.html?type=ova">OVA</a></li>
+          <li><a href="./browse.html?type=ona">ONA</a></li>
+          <li><a href="./browse.html?type=special">Special</a></li>
+        </ul>
+      </div>
+      <a href="./saved.html" class="active">My List</a>
+    </nav>
+    <div class="navbar__right">
+      <form class="navbar__search" id="searchForm">
+        <input type="text" id="searchInput" placeholder="Search anime…" autocomplete="off" />
+        <button type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+      </form>
+      <div class="navbar__auth" data-show-when="logged-out">
+        <a href="./login.html" class="btn btn--ghost">Log in</a>
+        <a href="./register.html" class="btn btn--primary">Sign up</a>
+      </div>
+      <div class="navbar__user" data-show-when="logged-in">
+        <img id="userAvatar" class="navbar__avatar" src="" alt="avatar" />
+        <span id="userDisplayName"></span>
+        <button id="logoutBtn" class="btn btn--ghost btn--sm">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="watchlist-page">
+
+    <div class="row__header">
+      <h2>My List</h2>
+      <!-- Summary stats -->
+      <div class="watchlist-summary" id="watchlistSummary"></div>
+    </div>
+
+    <!-- Status tabs -->
+    <div class="watchlist-tabs" id="watchlistTabs">
+      <button class="watchlist-tab active" data-status="">All</button>
+      <button class="watchlist-tab" data-status="watching">Watching</button>
+      <button class="watchlist-tab" data-status="completed">Completed</button>
+      <button class="watchlist-tab" data-status="planning">Plan to Watch</button>
+      <button class="watchlist-tab" data-status="paused">On Hold</button>
+      <button class="watchlist-tab" data-status="dropped">Dropped</button>
+    </div>
+
+    <!-- Not logged in state -->
+    <div id="loginPrompt" style="display:none; text-align:center; padding:64px 0;">
+      <p style="font-size:1.1rem; margin-bottom:16px;">Log in to see your anime list.</p>
+      <a href="./login.html" class="btn btn--primary">Log in</a>
+    </div>
+
+    <!-- Table -->
+    <div class="watchlist-table-wrap" id="watchlistTableWrap">
+      <table class="watchlist-table">
+        <thead>
+          <tr>
+            <th>Anime</th>
+            <th>Status</th>
+            <th>Progress</th>
+            <th>Score</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="watchlistBody"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <span class="footer__logo">WGW<span>Anime</span></span>
+    <p>Powered by <a href="https://jikan.moe/" target="_blank">Jikan API</a></p>
+  </footer>
+
+  <script type="module" src="../scripts/auth.js"></script>
+  <script type="module" src="../scripts/saved.js"></script>
+  <script type="module" src="../scripts/search.js"></script>
+
+</body>
+</html>

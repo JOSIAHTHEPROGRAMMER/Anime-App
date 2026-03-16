@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - WGWAnime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <div class="auth-card__logo">WGW<span>Anime</span></div>
+      <h2 class="auth-card__title">Create an account</h2>
+      <p class="auth-card__sub">Start tracking your anime</p>
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="yourname" autocomplete="username" />
+        <p class="form-error" id="usernameError"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" />
+        <p class="form-error" id="emailError"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="new-password" />
+        <p class="form-error" id="passwordError"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" placeholder="••••••••" autocomplete="new-password" />
+        <p class="form-error" id="confirmError"></p>
+      </div>
+
+      <p class="form-error" id="globalError"></p>
+
+      <button class="btn btn--primary" id="registerBtn">Create account</button>
+
+      <div class="auth-switch">
+        Already have an account? <a href="./login.html">Log in</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/register.js"></script>
+
+</body>
+</html>

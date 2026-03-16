@@ -6,9 +6,9 @@ function applyAuthState(user) {
 
   if (user) {
     const avatar = document.getElementById('userAvatar');
-    const name   = document.getElementById('userDisplayName');
+    const name = document.getElementById('userDisplayName');
     if (avatar) avatar.src = user.avatarUrl ?? `https://api.dicebear.com/8.x/thumbs/svg?seed=${user.username}`;
-    if (name)   name.textContent = user.username;
+    if (name) name.textContent = user.username;
   }
 }
 
@@ -26,20 +26,20 @@ async function init() {
 document.getElementById('logoutBtn')?.addEventListener('click', () => {
   Auth.logout();
   applyAuthState(null);
-  window.location.href = '/frontend/index.html';
+  window.location.href = '/public/index.html';
 });
 
-// Use on login/register pages — bounce logged-in users away
+// Use on login/register pages - bounce logged-in users away
 function guardAuthPage() {
   if (Auth.isLoggedIn()) {
-    window.location.href = '/frontend/index.html';
+    window.location.href = '/public/index.html';
   }
 }
 
-// Use on protected pages — bounce logged-out users to login
+// Use on protected pages - bounce logged-out users to login
 function requireAuth() {
   if (!Auth.isLoggedIn()) {
-    window.location.href = '/frontend/pages/login.html';
+    window.location.href = '/public/pages/login.html';
   }
 }
 

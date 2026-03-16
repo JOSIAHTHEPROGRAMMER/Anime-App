@@ -1,23 +1,20 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Add event listener to the search button
-    document.getElementById("search-button").addEventListener("click", function() {
-        searchAnime();
-    });
+import { Jikan } from './api.js';
 
-    // Add event listener to the input field for the "Enter" key
-    document.getElementById("search-input").addEventListener("keypress", function(event) {
-        // Check if the pressed key is "Enter"
-        if (event.key === "Enter") {
-            searchAnime();
-        }
-    });
+const form = document.getElementById('searchForm');
+const input = document.getElementById('searchInput');
 
-    function searchAnime() {
-        // Get the value from the search input field
-        const userAnime = document.getElementById("search-input").value.trim();
-        if (userAnime !== "") {
-            // Redirect to displayAnimes.html with the search query as a parameter
-            window.location.href = `displayAnimes.html?query=${encodeURIComponent(userAnime)}`;
-        }
-    }
+// On submit from the navbar search - redirect to browse page with query
+form?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const q = input.value.trim();
+  if (!q) return;
+  window.location.href = `/public/pages/browse.html?q=${encodeURIComponent(q)}`;
 });
+
+// If we're already on the browse page, pick up the query from the URL
+// and pre-fill the search input
+const params = new URLSearchParams(window.location.search);
+const q = params.get('q');
+if (q && input) input.value = q;
+
+export { Jikan };

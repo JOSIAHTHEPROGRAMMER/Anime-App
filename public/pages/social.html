@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social - WGWAnime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="../index.html" class="navbar__logo">WGW<span>Anime</span></a>
+    <nav class="navbar__links">
+      <a href="./genres.html">Genres</a>
+      <a href="./saved.html">My List</a>
+      <a href="./social.html" class="active">Social</a>
+    </nav>
+    <div class="navbar__right">
+      <form class="navbar__search" id="searchForm">
+        <input type="text" id="searchInput" placeholder="Search anime…" autocomplete="off" />
+        <button type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+      </form>
+      <div class="navbar__auth" data-show-when="logged-out">
+        <a href="./login.html" class="btn btn--ghost">Log in</a>
+        <a href="./register.html" class="btn btn--primary">Sign up</a>
+      </div>
+      <div class="navbar__user" data-show-when="logged-in">
+        <img id="userAvatar" class="navbar__avatar" src="" alt="avatar" />
+        <span id="userDisplayName"></span>
+        <button id="logoutBtn" class="btn btn--ghost btn--sm">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="social-page">
+
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start;">
+
+      <!-- Feed -->
+      <div>
+        <div class="row__header" style="margin-bottom:16px;">
+          <h2>Activity Feed</h2>
+        </div>
+
+        <div id="loginPrompt" style="display:none;text-align:center;padding:48px 0;">
+          <p style="margin-bottom:16px;">Log in to see what people are watching.</p>
+          <a href="./login.html" class="btn btn--primary">Log in</a>
+        </div>
+
+        <div id="feedList"></div>
+
+        <button class="btn btn--ghost" id="loadMoreBtn" style="width:100%;margin-top:16px;display:none;">
+          Load more
+        </button>
+      </div>
+
+      <!-- Sidebar: find users -->
+      <div>
+        <div class="row__header" style="margin-bottom:16px;">
+          <h3>Find Users</h3>
+        </div>
+
+        <form class="navbar__search" id="userSearchForm" style="margin-bottom:16px;border-radius:var(--radius);width:100%;">
+          <input type="text" id="userSearchInput" placeholder="Search by username…" autocomplete="off" style="width:100%;" />
+          <button type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+          </button>
+        </form>
+
+        <div id="userResults"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span class="footer__logo">WGW<span>Anime</span></span>
+    <p>Powered by <a href="https://jikan.moe/" target="_blank">Jikan API</a></p>
+  </footer>
+
+  <script type="module" src="../scripts/auth.js"></script>
+  <script type="module" src="../scripts/social.js"></script>
+  <script type="module" src="../scripts/search.js"></script>
+
+</body>
+</html>
