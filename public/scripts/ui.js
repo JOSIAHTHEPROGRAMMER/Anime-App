@@ -1,23 +1,40 @@
 import { Watchlist, Auth } from './api.js';
 
-// Build a single anime card element
-export function createAnimeCard(anime) {
-  const card = document.createElement('a');
-  card.className = 'anime-card';
-  card.href = `/public/pages/anime.html?id=${anime.mal_id}`;
+function animeHref(malId) {
+  const inPages = window.location.pathname.includes('/pages/');
+  return inPages
+    ? `./anime.html?id=${malId}`
+    : `./pages/anime.html?id=${malId}`;
+}
 
-  const score = anime.score ? `⭐ ${anime.score}` : '';
-  const airing = anime.airing ? '<span class="anime-card__airing">Airing</span>' : '';
-  const image = anime.images?.jpg?.image_url ?? '';
+export function createAnimeCard(anime) {
+  const card = document.createElement('div');
+  card.className = 'anime-card';
+
+  const score = anime.score
+    ? `<span class="anime-card__score">⭐ ${anime.score}</span>`
+    : '';
+
+  const airing = anime.airing
+    ? `<span class="anime-card__airing">Airing</span>`
+    : '';
+
+  const image = anime.images?.webp?.large_image_url
+    ?? anime.images?.jpg?.image_url
+    ?? '';
+
   const type = anime.type ?? '';
   const year = anime.year ?? anime.aired?.prop?.from?.year ?? '';
 
   card.innerHTML = `
     <div class="anime-card__img-wrap">
       <img class="anime-card__img" src="${image}" alt="${anime.title}" loading="lazy" />
-      ${score ? `<span class="anime-card__score">${score}</span>` : ''}
+      ${score}
       ${airing}
-      ${Auth.isLoggedIn() ? `<button class="anime-card__add" data-id="${anime.mal_id}" title="Add to watchlist">+</button>` : ''}
+      ${Auth.isLoggedIn() ? `
+        <button class="anime-card__add" data-id="${anime.mal_id}" title="Add to watchlist">
+          <i data-lucide="plus"></i>
+        </button>` : ''}
     </div>
     <div class="anime-card__body">
       <p class="anime-card__title">${anime.title}</p>
@@ -25,46 +42,80 @@ export function createAnimeCard(anime) {
     </div>
   `;
 
-  // Quick-add watchlist without navigating
-  card.querySelector('.anime-card__add')?.addEventListener('click', async (e) => {
-    e.preventDefault();
+  const img = card.querySelector('.anime-card__img');
+  img.addEventListener('click', (e) => {
     e.stopPropagation();
-    await quickAddToWatchlist(anime, e.currentTarget);
+    window.location.href = animeHref(anime.mal_id);
   });
+
+  let isDragging = false;
+  card.addEventListener('mousedown', () => { isDragging = false; });
+  card.addEventListener('mousemove', () => { isDragging = true; });
+  card.addEventListener('mouseup', () => { if (!isDragging) window.location.href = animeHref(anime.mal_id); });
+
+  card.addEventListener('touchstart', () => { isDragging = false; }, { passive: true });
+  card.addEventListener('touchmove', () => { isDragging = true; }, { passive: true });
+  card.addEventListener('touchend', () => { if (!isDragging) window.location.href = animeHref(anime.mal_id); });
+
+  const btn = card.querySelector('.anime-card__add');
+  if (btn) {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      await toggleWatchlist(anime, btn);
+    });
+  }
 
   return card;
 }
 
-// Render a list of anime cards into a container
 export function renderCards(container, animeList) {
   container.innerHTML = '';
+
   if (!animeList?.length) {
     container.innerHTML = '<p class="text-muted">Nothing to show here.</p>';
     return;
   }
-  animeList.forEach(a => container.appendChild(createAnimeCard(a)));
+
+  animeList.forEach(a => {
+    const card = createAnimeCard(a);
+    container.appendChild(card);
+    if (window.lucide) lucide.createIcons({ nodes: [card] });
+  });
 }
 
-// Add to watchlist from the card's + button
-async function quickAddToWatchlist(anime, btn) {
-  try {
-    await Watchlist.upsert({
-      malId: anime.mal_id,
-      title: anime.title,
-      imageUrl: anime.images?.jpg?.image_url ?? '',
-      totalEpisodes: anime.episodes ?? 0,
-      status: 'planning',
-      progress: 0,
-    });
-    btn.classList.add('saved');
-    btn.textContent = '✓';
-    showToast('Added to watchlist', 'success');
-  } catch {
-    showToast('Failed to add - are you logged in?', 'error');
+async function toggleWatchlist(anime, btn) {
+  const isSaved = btn.classList.contains('saved');
+
+  if (isSaved) {
+    try {
+      await Watchlist.remove(anime.mal_id);
+      btn.classList.remove('saved');
+      btn.innerHTML = '<i data-lucide="plus"></i>';
+      if (window.lucide) lucide.createIcons({ nodes: [btn] });
+      showToast('Removed from watchlist', 'info');
+    } catch {
+      showToast('Failed to remove', 'error');
+    }
+  } else {
+    try {
+      await Watchlist.upsert({
+        malId: anime.mal_id,
+        title: anime.title,
+        imageUrl: anime.images?.webp?.large_image_url ?? anime.images?.jpg?.image_url ?? '',
+        totalEpisodes: anime.episodes ?? 0,
+        status: 'planning',
+        progress: 0,
+      });
+      btn.classList.add('saved');
+      btn.innerHTML = '<i data-lucide="check"></i>';
+      if (window.lucide) lucide.createIcons({ nodes: [btn] });
+      showToast('Added to watchlist', 'success');
+    } catch {
+      showToast('Failed to add - are you logged in?', 'error');
+    }
   }
 }
 
-// Skeleton placeholder cards while content loads
 export function renderSkeletons(container, count = 10) {
   container.innerHTML = Array.from({ length: count }, () => `
     <div class="anime-card">
@@ -77,7 +128,6 @@ export function renderSkeletons(container, count = 10) {
   `).join('');
 }
 
-// Toast notifications
 const _toastContainer = (() => {
   const el = document.createElement('div');
   el.className = 'toast-container';
@@ -97,15 +147,13 @@ export function showToast(message, type = 'info', duration = 3000) {
   }, duration);
 }
 
-// Pagination - calls onPage(pageNumber) when a button is clicked
 export function renderPagination(container, currentPage, lastPage, onPage) {
   container.innerHTML = '';
   if (lastPage <= 1) return;
 
   const pages = getPaginationRange(currentPage, lastPage);
 
-  const prev = makePageBtn('←', currentPage === 1, () => onPage(currentPage - 1));
-  container.appendChild(prev);
+  container.appendChild(makePageBtn('←', currentPage === 1, () => onPage(currentPage - 1)));
 
   pages.forEach(p => {
     if (p === '...') {
@@ -120,8 +168,7 @@ export function renderPagination(container, currentPage, lastPage, onPage) {
     }
   });
 
-  const next = makePageBtn('→', currentPage === lastPage, () => onPage(currentPage + 1));
-  container.appendChild(next);
+  container.appendChild(makePageBtn('→', currentPage === lastPage, () => onPage(currentPage + 1)));
 }
 
 function makePageBtn(label, disabled, onClick) {
@@ -133,7 +180,6 @@ function makePageBtn(label, disabled, onClick) {
   return btn;
 }
 
-// Returns an array like [1, 2, '...', 8, 9, 10]
 function getPaginationRange(current, last) {
   const delta = 2;
   const range = [];
@@ -151,21 +197,45 @@ function getPaginationRange(current, last) {
   return range;
 }
 
-// Generic empty state - drop into any container
 export function renderEmpty(container, message = 'Nothing here yet.') {
   container.innerHTML = `
     <div style="text-align:center;padding:48px 0;color:var(--text-faint);">
-      <p style="font-size:2rem;margin-bottom:8px;">¯\\_(ツ)_/¯</p>
+      <p style="font-size:1.5rem;margin-bottom:8px;">¯\\_(ツ)_/¯</p>
       <p>${message}</p>
     </div>
   `;
 }
 
-// Generic error state
 export function renderError(container, message = 'Something went wrong.') {
   container.innerHTML = `
     <div style="text-align:center;padding:48px 0;color:var(--red);">
       <p>${message}</p>
     </div>
   `;
+}
+
+export function initSliderArrows(track, prevBtn, nextBtn) {
+  if (!track || !prevBtn || !nextBtn) return;
+
+  const SCROLL_AMOUNT = 480;
+
+  function updateArrows() {
+    const atStart = track.scrollLeft <= 4;
+    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+    prevBtn.classList.toggle('disabled', atStart);
+    nextBtn.classList.toggle('disabled', atEnd);
+  }
+
+  prevBtn.addEventListener('click', () => {
+    track.scrollBy({ left: -SCROLL_AMOUNT, behavior: 'smooth' });
+  });
+
+  nextBtn.addEventListener('click', () => {
+    track.scrollBy({ left: SCROLL_AMOUNT, behavior: 'smooth' });
+  });
+
+  track.addEventListener('scroll', updateArrows, { passive: true });
+
+  updateArrows();
+  setTimeout(updateArrows, 400);
 }

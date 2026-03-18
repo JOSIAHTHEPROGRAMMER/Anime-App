@@ -1,10 +1,10 @@
 import { Jikan, Watchlist, Reviews, Auth } from './api.js';
-import { renderCards, renderSkeletons, showToast } from './ui.js';
+import { renderCards, renderSkeletons, showToast, initSliderArrows } from './ui.js';
+import { DEFAULT_PFP } from './auth.js';
 
 const malId = parseInt(new URLSearchParams(window.location.search).get('id'), 10);
 if (!malId) window.location.href = './browse.html';
 
-// DOM refs
 const bannerImg = document.getElementById('detailBannerImg');
 const poster = document.getElementById('detailPoster');
 const title = document.getElementById('detailTitle');
@@ -33,11 +33,13 @@ const reviewText = document.getElementById('reviewText');
 const submitReview = document.getElementById('submitReview');
 const reviewsList = document.getElementById('reviewsList');
 const recsList = document.getElementById('recsList');
+const recsPrev = document.getElementById('recsPrev');
+const recsNext = document.getElementById('recsNext');
 
 let selectedRating = 0;
 let totalEpisodes = 0;
+let animeInList = false;
 
-//  Anime data 
 async function loadAnime() {
   try {
     const res = await Jikan.animeById(malId);
@@ -58,14 +60,12 @@ async function loadAnime() {
     totalEpisodes = anime.episodes ?? 0;
     if (watchlistTotal) watchlistTotal.textContent = `/ ${totalEpisodes || '?'}`;
 
-    // Meta row
     const score = anime.score ? `<span class="score" style="color:#f5c518;font-weight:700">⭐ ${anime.score}</span>` : '';
     const type = anime.type ? `<span class="tag">${anime.type}</span>` : '';
     const status = anime.status ? `<span class="tag">${anime.status}</span>` : '';
     const year = anime.year ?? anime.aired?.prop?.from?.year ?? '';
     metaEl.innerHTML = [score, type, status, year ? `<span>${year}</span>` : ''].filter(Boolean).join('');
 
-    // Stats
     const stats = [
       { label: 'Score', value: anime.score ?? 'N/A' },
       { label: 'Ranked', value: anime.rank ? `#${anime.rank}` : 'N/A' },
@@ -81,17 +81,14 @@ async function loadAnime() {
       </div>
     `).join('');
 
-    // Synopsis
     synopsisEl.textContent = anime.synopsis ?? 'No synopsis available.';
 
-    // Genres
     if (anime.genres?.length) {
       genresEl.innerHTML = anime.genres.map(g =>
         `<a href="./browse.html?genres=${g.mal_id}" class="tag tag--red">${g.name}</a>`
       ).join('');
     }
 
-    // Studios
     if (anime.studios?.length) {
       studiosEl.innerHTML = anime.studios.map(s =>
         `<span class="tag">${s.name}</span>`
@@ -100,7 +97,6 @@ async function loadAnime() {
       document.getElementById('studiosSection').style.display = 'none';
     }
 
-    // Trailer
     const ytId = anime.trailer?.youtube_id;
     if (ytId) {
       trailerSection.style.display = '';
@@ -114,13 +110,11 @@ async function loadAnime() {
   }
 }
 
-//  Synopsis toggle 
 synopsisToggle?.addEventListener('click', () => {
   const collapsed = synopsisEl.classList.toggle('collapsed');
   synopsisToggle.textContent = collapsed ? 'Show more ▾' : 'Show less ▴';
 });
 
-//  Trailer modal 
 trailerBtn?.addEventListener('click', () => {
   const id = trailerBtn.dataset.ytid;
   if (!id) return;
@@ -138,19 +132,20 @@ function closeTrailerModal() {
   trailerModalFrame.src = '';
 }
 
-//  Watchlist 
 async function loadWatchlistState() {
   if (!Auth.isLoggedIn()) return;
   try {
     const entry = await Watchlist.getEntry(malId);
     if (entry) setWatchlistAdded(entry);
-  } catch { /* not in list */ }
+  } catch { }
 }
 
 function setWatchlistAdded(entry) {
-  watchlistBtn.textContent = '✓ In your list';
+  animeInList = true;
+  watchlistBtn.innerHTML = '<i data-lucide="check"></i> In your list';
   watchlistBtn.classList.replace('btn--primary', 'btn--surface');
   watchlistStatusWrap.style.display = '';
+  if (window.lucide) lucide.createIcons({ nodes: [watchlistBtn] });
 
   if (entry?.status) watchlistStatus.value = entry.status;
   if (entry?.progress !== undefined) {
@@ -159,16 +154,33 @@ function setWatchlistAdded(entry) {
   }
 }
 
+function setWatchlistRemoved() {
+  animeInList = false;
+  watchlistBtn.innerHTML = '<i data-lucide="plus"></i> Add to List';
+  watchlistBtn.classList.replace('btn--surface', 'btn--primary');
+  watchlistStatusWrap.style.display = 'none';
+  if (window.lucide) lucide.createIcons({ nodes: [watchlistBtn] });
+}
+
 function updateProgressBar(val) {
   const pct = totalEpisodes ? (val / totalEpisodes) * 100 : 0;
   if (progressFill) progressFill.style.width = `${Math.min(pct, 100)}%`;
 }
 
 watchlistBtn?.addEventListener('click', async () => {
-  if (!Auth.isLoggedIn()) {
-    showToast('Log in to save anime.', 'info');
+  if (!Auth.isLoggedIn()) { showToast('Log in to save anime.', 'info'); return; }
+
+  if (animeInList) {
+    try {
+      await Watchlist.remove(malId);
+      setWatchlistRemoved();
+      showToast('Removed from your list.', 'info');
+    } catch {
+      showToast('Failed to remove.', 'error');
+    }
     return;
   }
+
   try {
     const anime = await Jikan.animeById(malId);
     await Watchlist.upsert({
@@ -200,24 +212,19 @@ watchlistProgressEl?.addEventListener('change', async () => {
   const val = parseInt(watchlistProgressEl.value, 10);
   updateProgressBar(val);
   if (!Auth.isLoggedIn()) return;
-  try {
-    await Watchlist.update(malId, { progress: val });
-  } catch { /* silent */ }
+  try { await Watchlist.update(malId, { progress: val }); } catch { }
 });
 
 removeFromListBtn?.addEventListener('click', async () => {
   try {
     await Watchlist.remove(malId);
-    watchlistBtn.textContent = '+ Add to List';
-    watchlistBtn.classList.replace('btn--surface', 'btn--primary');
-    watchlistStatusWrap.style.display = 'none';
+    setWatchlistRemoved();
     showToast('Removed from list.', 'info');
   } catch {
     showToast('Failed to remove.', 'error');
   }
 });
 
-//  Reviews 
 async function loadReviews() {
   try {
     const res = await Reviews.getForAnime(malId);
@@ -234,16 +241,18 @@ function renderReviews(reviews) {
   }
   reviewsList.innerHTML = reviews.map(r => {
     const stars = '★'.repeat(r.rating) + '☆'.repeat(10 - r.rating);
-    const avatar = r.user?.avatarUrl
-      ?? `https://api.dicebear.com/8.x/thumbs/svg?seed=${r.user?.username}`;
+    const avatar = r.user?.avatarUrl ?? DEFAULT_PFP;
     return `
       <div class="review-card">
         <div class="review-card__header">
-          <img class="review-card__avatar" src="${avatar}" alt="${r.user?.username}" />
-          <div>
-            <strong>${r.user?.username ?? 'Anonymous'}</strong>
-            <div class="review-card__stars">${stars}</div>
-          </div>
+          <a href="./profile.html?u=${r.user?.username}" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+            <img class="review-card__avatar" src="${avatar}" alt="${r.user?.username}" />
+            </a>
+            <div>
+              <strong style="color:var(--text)">${r.user?.username ?? 'Anonymous'}</strong>
+              <div class="review-card__stars">${stars}</div>
+            </div>
+          
         </div>
         <p class="review-card__body">${r.body}</p>
       </div>
@@ -251,7 +260,6 @@ function renderReviews(reviews) {
   }).join('');
 }
 
-// Star picker
 starPicker?.querySelectorAll('span').forEach(star => {
   star.addEventListener('click', () => {
     selectedRating = parseInt(star.dataset.val, 10);
@@ -268,7 +276,13 @@ submitReview?.addEventListener('click', async () => {
   if (!body) { showToast('Write something first.', 'info'); return; }
 
   try {
-    await Reviews.upsert({ malId, rating: selectedRating, body });
+    await Reviews.upsert({
+      malId,
+      rating: selectedRating,
+      body,
+      animeTitle: document.getElementById('detailTitle')?.textContent ?? '',
+      imageUrl: document.getElementById('detailPoster')?.src ?? '',
+    });
     showToast('Review posted!', 'success');
     reviewText.value = '';
     selectedRating = 0;
@@ -279,35 +293,18 @@ submitReview?.addEventListener('click', async () => {
   }
 });
 
-//  Recommendations 
 async function loadRecs() {
-  renderSkeletons(recsList, 8);
+  renderSkeletons(recsList, 12);
   try {
     const res = await Jikan.recommendations(malId);
-    const data = (res?.data ?? []).slice(0, 5).map(r => r.entry);
+    const data = (res?.data ?? []).slice(0, 12).map(r => r.entry);
     renderCards(recsList, data);
+    initSliderArrows(recsList, recsPrev, recsNext);
   } catch {
     recsList.innerHTML = '';
   }
 }
 
-//  Extra CSS needed for this page 
-const style = document.createElement('style');
-style.textContent = `
-  .watchlist-status-wrap  { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
-  .watchlist-status-select { width: 100%; padding: 8px 10px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); }
-  .watchlist-progress label { font-size: 0.75rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; }
-  .progress-input-row { display: flex; align-items: center; gap: 6px; margin: 6px 0; }
-  .progress-input-row input { width: 64px; padding: 6px 8px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); }
-  .progress-input-row span { font-size: 0.85rem; color: var(--text-muted); }
-  .detail-info__meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-  #recsSection .row__cards { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
-  #recsSection .row__cards::-webkit-scrollbar { display: none; }
-  #recsSection .row__cards .anime-card { flex: 0 0 150px; }
-`;
-document.head.appendChild(style);
-
-//  Init 
 loadAnime();
 loadWatchlistState();
 loadReviews();

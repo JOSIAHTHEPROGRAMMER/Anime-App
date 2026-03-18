@@ -1,28 +1,33 @@
 import { Social, Auth } from './api.js';
 import { showToast } from './ui.js';
 
-const feedList      = document.getElementById('feedList');
-const loadMoreBtn   = document.getElementById('loadMoreBtn');
-const loginPrompt   = document.getElementById('loginPrompt');
-const userSearchForm  = document.getElementById('userSearchForm');
+const DEFAULT_PFP = '/public/assets/default-pfp-24.jpg';
+
+const feedList = document.getElementById('feedList');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+const loginPrompt = document.getElementById('loginPrompt');
+const userSearchForm = document.getElementById('userSearchForm');
 const userSearchInput = document.getElementById('userSearchInput');
-const userResults     = document.getElementById('userResults');
+const userResults = document.getElementById('userResults');
 
 let feedPage = 1;
+let freshUser = null;
 
-// Show login prompt if not logged in
 if (!Auth.isLoggedIn()) {
   loginPrompt.style.display = '';
   loadMoreBtn.style.display = 'none';
 } else {
-  loadFeed();
+  Promise.all([
+    Auth.refresh().then(u => { freshUser = u; }),
+    loadFeed(),
+  ]);
 }
 
 async function loadFeed(page = 1) {
   if (page === 1) feedList.innerHTML = '<p class="text-muted" style="padding:16px 0">Loading feed…</p>';
 
   try {
-    const res   = await Social.feed(page);
+    const res = await Social.feed(page);
     const items = res?.data ?? [];
 
     if (page === 1) feedList.innerHTML = '';
@@ -44,24 +49,28 @@ async function loadFeed(page = 1) {
 }
 
 function createFeedItem(item) {
-  const el     = document.createElement('div');
+  const el = document.createElement('div');
   el.className = 'feed-item';
 
-  const avatar = item.user?.avatarUrl
-    ?? `https://api.dicebear.com/8.x/thumbs/svg?seed=${item.user?.username}`;
-
+  const avatar = item.user?.avatarUrl || DEFAULT_PFP;
   const timeAgo = formatTimeAgo(item.createdAt);
 
   el.innerHTML = `
-    <img class="feed-item__avatar" src="${avatar}" alt="${item.user?.username}" />
+    <a href="./profile.html?u=${item.user?.username}" style="flex-shrink:0;">
+      <img class="feed-item__avatar" src="${avatar}" alt="${item.user?.username}" />
+    </a>
     <div class="feed-item__content">
-      <span class="feed-item__name">${item.user?.username ?? 'Unknown'}</span>
+      <a class="feed-item__name" href="./profile.html?u=${item.user?.username}">
+        ${item.user?.username ?? 'Unknown'}
+      </a>
       <span class="feed-item__action"> ${item.action}
         <a class="feed-item__anime-link" href="./anime.html?id=${item.malId}">${item.animeTitle}</a>
       </span>
       <div class="feed-item__time">${timeAgo}</div>
     </div>
-    ${item.imageUrl ? `<img class="feed-item__thumb" src="${item.imageUrl}" alt="${item.animeTitle}" />` : ''}
+    ${item.imageUrl
+      ? `<a href="./anime.html?id=${item.malId}"><img class="feed-item__thumb" src="${item.imageUrl}" alt="${item.animeTitle}" /></a>`
+      : ''}
   `;
 
   return el;
@@ -69,7 +78,6 @@ function createFeedItem(item) {
 
 loadMoreBtn?.addEventListener('click', () => loadFeed(feedPage + 1));
 
-// User search
 userSearchForm?.addEventListener('submit', async (e) => {
   e.preventDefault();
   const q = userSearchInput.value.trim();
@@ -78,7 +86,7 @@ userSearchForm?.addEventListener('submit', async (e) => {
   userResults.innerHTML = '<p class="text-muted" style="padding:8px 0">Searching…</p>';
 
   try {
-    const res   = await Social.searchUsers(q);
+    const res = await Social.searchUsers(q);
     const users = res?.data ?? [];
 
     if (!users.length) {
@@ -94,21 +102,26 @@ userSearchForm?.addEventListener('submit', async (e) => {
 });
 
 function createUserCard(u) {
-  const card   = document.createElement('div');
+  const card = document.createElement('div');
   card.className = 'user-card';
   card.style.marginBottom = '10px';
 
-  const avatar = u.avatarUrl
-    ?? `https://api.dicebear.com/8.x/thumbs/svg?seed=${u.username}`;
+  const avatar = u.avatarUrl || DEFAULT_PFP;
 
-  const isFollowing = u.isFollowing ?? false;
+  // The server returns u.followers - the list of IDs that follow this user.
+  // Check if the current logged-in user's ID is in that list.
+  const myId = freshUser?._id?.toString() ?? Auth.currentUser()?._id?.toString();
+  const followers = u.followers ?? [];
+  const isFollowing = followers.map(f => f.toString()).includes(myId);
 
   card.innerHTML = `
-    <img class="user-card__avatar" src="${avatar}" alt="${u.username}" />
-    <div>
-      <div class="user-card__name">${u.username}</div>
-      <div class="user-card__handle">@${u.username}</div>
-    </div>
+    <a href="./profile.html?u=${u.username}" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex:1;">
+      <img class="user-card__avatar" src="${avatar}" alt="${u.username}" />
+      <div>
+        <div class="user-card__name">${u.username}</div>
+        <div class="user-card__handle">@${u.username}</div>
+      </div>
+    </a>
     <button class="btn--follow ${isFollowing ? 'following' : ''}" data-id="${u._id}">
       ${isFollowing ? 'Following' : 'Follow'}
     </button>
@@ -116,8 +129,10 @@ function createUserCard(u) {
 
   card.querySelector('.btn--follow')?.addEventListener('click', async (e) => {
     if (!Auth.isLoggedIn()) { showToast('Log in to follow users.', 'info'); return; }
-    const btn        = e.currentTarget;
-    const following  = btn.classList.contains('following');
+    const btn = e.currentTarget;
+    btn.disabled = true;
+
+    const following = btn.classList.contains('following');
     try {
       if (following) {
         await Social.unfollow(u._id);
@@ -128,8 +143,15 @@ function createUserCard(u) {
         btn.textContent = 'Following';
         btn.classList.add('following');
       }
-    } catch {
-      showToast('Action failed.', 'error');
+    } catch (err) {
+      if (err.status === 409) {
+        btn.textContent = 'Following';
+        btn.classList.add('following');
+      } else {
+        showToast('Action failed.', 'error');
+      }
+    } finally {
+      btn.disabled = false;
     }
   });
 
@@ -139,11 +161,11 @@ function createUserCard(u) {
 function formatTimeAgo(dateStr) {
   if (!dateStr) return '';
   const diff = Date.now() - new Date(dateStr).getTime();
-  const mins  = Math.floor(diff / 60000);
-  if (mins < 1)   return 'just now';
-  if (mins < 60)  return `${mins}m ago`;
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins}m ago`;
   const hrs = Math.floor(mins / 60);
-  if (hrs < 24)   return `${hrs}h ago`;
+  if (hrs < 24) return `${hrs}h ago`;
   const days = Math.floor(hrs / 24);
   return `${days}d ago`;
 }

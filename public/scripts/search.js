@@ -1,20 +1,35 @@
 import { Jikan } from './api.js';
 
-const form = document.getElementById('searchForm');
-const input = document.getElementById('searchInput');
+// Target URL for search results is always the browse page.
+// The path differs depending on whether the caller is at the root or in /pages/.
+function browseHref(q) {
+  const inPages = window.location.pathname.includes('/pages/');
+  const base = inPages ? './browse.html' : '/public/pages/browse.html';
+  return `${base}?q=${encodeURIComponent(q)}`;
+}
 
-// On submit from the navbar search - redirect to browse page with query
-form?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const q = input.value.trim();
-  if (!q) return;
-  window.location.href = `/public/pages/browse.html?q=${encodeURIComponent(q)}`;
-});
+// Wire a search form to navigate to the browse page on submit
+function wireSearchForm(formId, inputId) {
+  const form = document.getElementById(formId);
+  const input = document.getElementById(inputId);
+  if (!form || !input) return;
 
-// If we're already on the browse page, pick up the query from the URL
-// and pre-fill the search input
-const params = new URLSearchParams(window.location.search);
-const q = params.get('q');
-if (q && input) input.value = q;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = input.value.trim();
+    if (!q) return;
+    window.location.href = browseHref(q);
+  });
+
+  // Pre-fill the input if the page already has a search query in the URL
+  const q = new URLSearchParams(window.location.search).get('q');
+  if (q) input.value = q;
+}
+
+// Desktop navbar search
+wireSearchForm('searchForm', 'searchInput');
+
+// Mobile drawer search
+wireSearchForm('searchFormMobile', 'searchInputMobile');
 
 export { Jikan };

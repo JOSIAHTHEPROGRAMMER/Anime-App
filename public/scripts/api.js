@@ -22,7 +22,7 @@ const JIKAN_BASE = 'https://api.jikan.moe/v4';
 
 // Locally: http://localhost:3000/api
 // Production: swap for your Railway / Render URL via env
-const API_BASE = window.__WGW_API__ ?? 'http://localhost:3000/api';
+export const API_BASE = window.__WGW_API__ ?? 'http://localhost:3000/api';
 
 // Jikan rate-limits to ~3 req/s. This queue prevents 429s.
 const _queue = [];
@@ -374,12 +374,12 @@ export const Social = {
 
   /** Public profile + watchlist summary by username */
   getProfile(username) {
-    return _fetch(`${API_BASE}/social/users/${username}`);
+    return _get(`/social/users/${username}`);
   },
 
   /** Search users by username */
   searchUsers(query) {
-    return _fetch(`${API_BASE}/social/users?q=${encodeURIComponent(query)}`);
+    return _get(`/social/users?q=${encodeURIComponent(query)}`);
   },
 
   getFollowers(userId) {

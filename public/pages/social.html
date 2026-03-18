@@ -6,76 +6,133 @@
   <title>Social - WGWAnime</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <!-- Lucide icons library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts loaded here -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../styles/main.css" />
 </head>
 <body>
 
+  <!-- Sticky top navigation bar -->
   <header class="navbar">
     <a href="../index.html" class="navbar__logo">WGW<span>Anime</span></a>
+
+    <!-- Hamburger button appears on mobile only -->
+    <button class="navbar__hamburger" id="hamburger" aria-label="Open menu">
+      <i data-lucide="menu"></i>
+    </button>
+
+    <!-- Desktop navigation links -->
     <nav class="navbar__links">
       <a href="./genres.html">Genres</a>
       <a href="./saved.html">My List</a>
       <a href="./social.html" class="active">Social</a>
     </nav>
+
+    <!-- Search bar and auth buttons on the right -->
     <div class="navbar__right">
       <form class="navbar__search" id="searchForm">
         <input type="text" id="searchInput" placeholder="Search anime…" autocomplete="off" />
-        <button type="submit">
+        <button type="submit" aria-label="Search">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
         </button>
       </form>
+
+      <!-- Shown when the user is not logged in -->
       <div class="navbar__auth" data-show-when="logged-out">
-        <a href="./login.html" class="btn btn--ghost">Log in</a>
-        <a href="./register.html" class="btn btn--primary">Sign up</a>
+        <a href="./login.html" class="btn btn--ghost btn--sm">Log in</a>
+        <a href="./register.html" class="btn btn--primary btn--sm">Sign up</a>
       </div>
+
+      <!-- Shown when the user is logged in -->
       <div class="navbar__user" data-show-when="logged-in">
-        <img id="userAvatar" class="navbar__avatar" src="" alt="avatar" />
-        <span id="userDisplayName"></span>
+        <a id="profileLink" href="#" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+          <img id="userAvatar" class="navbar__avatar" src="/public/assets/default-pfp-24.jpg" alt="avatar" />
+          <span id="userDisplayName" style="font-size:0.875rem;font-weight:600;color:var(--text);"></span>
+        </a>
         <button id="logoutBtn" class="btn btn--ghost btn--sm">Logout</button>
       </div>
     </div>
   </header>
 
+  <!-- Mobile navigation drawer slides down from the header -->
+  <div class="navbar__mobile-drawer" id="mobileDrawer">
+    <a href="./genres.html">Genres</a>
+    <a href="./saved.html">My List</a>
+    <a href="./social.html" class="active">Social</a>
+    <!-- Mobile search input -->
+    <div class="navbar__mobile-search">
+      <form class="navbar__search" id="searchFormMobile">
+        <input type="text" id="searchInputMobile" placeholder="Search anime…" autocomplete="off" />
+        <button type="submit" aria-label="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <!-- Auth links shown when logged out -->
+    <div data-show-when="logged-out" style="display:flex;gap:8px;margin-top:8px;">
+      <a href="./login.html" class="btn btn--ghost btn--sm">Log in</a>
+      <a href="./register.html" class="btn btn--primary btn--sm">Sign up</a>
+    </div>
+    <!-- User avatar and logout shown when logged in -->
+    <div data-show-when="logged-in" style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:8px;">
+      <a id="profileLinkMobile" href="#" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <img id="userAvatarMobile" class="navbar__avatar" src="/public/assets/default-pfp-24.jpg" alt="avatar" />
+        <span id="userDisplayNameMobile" style="font-size:0.875rem;font-weight:600;color:var(--text);"></span>
+      </a>
+      <button id="logoutBtnMobile" class="btn btn--ghost btn--sm">Logout</button>
+    </div>
+  </div>
+
+  <!-- Social page content: feed on the left, user search on the right -->
   <div class="social-page">
 
-    <div style="display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start;">
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;">
 
-      <!-- Feed -->
+      <!-- Activity feed column -->
       <div>
         <div class="row__header" style="margin-bottom:16px;">
           <h2>Activity Feed</h2>
         </div>
 
+        <!-- Prompt shown when the visitor is not logged in -->
+        <!-- auth.js controls whether this is visible -->
         <div id="loginPrompt" style="display:none;text-align:center;padding:48px 0;">
           <p style="margin-bottom:16px;">Log in to see what people are watching.</p>
           <a href="./login.html" class="btn btn--primary">Log in</a>
         </div>
 
+        <!-- Feed items are injected here by social.js -->
         <div id="feedList"></div>
 
+        <!-- Load more button appends additional feed items -->
         <button class="btn btn--ghost" id="loadMoreBtn" style="width:100%;margin-top:16px;display:none;">
           Load more
         </button>
       </div>
 
-      <!-- Sidebar: find users -->
+      <!-- User search sidebar -->
       <div>
         <div class="row__header" style="margin-bottom:16px;">
           <h3>Find Users</h3>
         </div>
 
+        <!-- Username search form -->
         <form class="navbar__search" id="userSearchForm" style="margin-bottom:16px;border-radius:var(--radius);width:100%;">
           <input type="text" id="userSearchInput" placeholder="Search by username…" autocomplete="off" style="width:100%;" />
-          <button type="submit">
+          <button type="submit" aria-label="Search users">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
             </svg>
           </button>
         </form>
 
+        <!-- User result cards are injected here by social.js -->
         <div id="userResults"></div>
       </div>
 
@@ -87,9 +144,12 @@
     <p>Powered by <a href="https://jikan.moe/" target="_blank">Jikan API</a></p>
   </footer>
 
+  <script>lucide.createIcons();</script>
+  <script type="module" src="../scripts/dropdown.js"></script>
   <script type="module" src="../scripts/auth.js"></script>
   <script type="module" src="../scripts/social.js"></script>
   <script type="module" src="../scripts/search.js"></script>
+
 
 </body>
 </html>

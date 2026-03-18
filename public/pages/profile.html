@@ -6,81 +6,150 @@
   <title>Profile - WGWAnime</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <!-- Lucide icons library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts loaded here -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../styles/main.css" />
 </head>
 <body>
 
+  <!-- Sticky top navigation bar -->
   <header class="navbar">
     <a href="../index.html" class="navbar__logo">WGW<span>Anime</span></a>
+
+    <!-- Hamburger button appears on mobile only -->
+    <button class="navbar__hamburger" id="hamburger" aria-label="Open menu">
+      <i data-lucide="menu"></i>
+    </button>
+
+    <!-- Desktop navigation links -->
     <nav class="navbar__links">
       <a href="./genres.html">Genres</a>
       <a href="./saved.html">My List</a>
       <a href="./social.html">Social</a>
     </nav>
+
+    <!-- Search bar and auth buttons on the right -->
     <div class="navbar__right">
       <form class="navbar__search" id="searchForm">
         <input type="text" id="searchInput" placeholder="Search anime…" autocomplete="off" />
-        <button type="submit">
+        <button type="submit" aria-label="Search">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
         </button>
       </form>
+
+      <!-- Shown when the user is not logged in -->
       <div class="navbar__auth" data-show-when="logged-out">
-        <a href="./login.html" class="btn btn--ghost">Log in</a>
-        <a href="./register.html" class="btn btn--primary">Sign up</a>
+        <a href="./login.html" class="btn btn--ghost btn--sm">Log in</a>
+        <a href="./register.html" class="btn btn--primary btn--sm">Sign up</a>
       </div>
+
+      <!-- Shown when the user is logged in -->
       <div class="navbar__user" data-show-when="logged-in">
-        <img id="userAvatar" class="navbar__avatar" src="" alt="avatar" />
-        <span id="userDisplayName"></span>
+        <a id="profileLink" href="#" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+          <img id="userAvatar" class="navbar__avatar" src="/public/assets/default-pfp-24.jpg" alt="avatar" />
+          <span id="userDisplayName" style="font-size:0.875rem;font-weight:600;color:var(--text);"></span>
+        </a>
         <button id="logoutBtn" class="btn btn--ghost btn--sm">Logout</button>
       </div>
     </div>
   </header>
 
+  <!-- Mobile navigation drawer slides down from the header -->
+  <div class="navbar__mobile-drawer" id="mobileDrawer">
+    <a href="./genres.html">Genres</a>
+    <a href="./saved.html">My List</a>
+    <a href="./social.html">Social</a>
+    <!-- Mobile search input -->
+    <div class="navbar__mobile-search">
+      <form class="navbar__search" id="searchFormMobile">
+        <input type="text" id="searchInputMobile" placeholder="Search anime…" autocomplete="off" />
+        <button type="submit" aria-label="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <!-- Auth links shown when logged out -->
+    <div data-show-when="logged-out" style="display:flex;gap:8px;margin-top:8px;">
+      <a href="./login.html" class="btn btn--ghost btn--sm">Log in</a>
+      <a href="./register.html" class="btn btn--primary btn--sm">Sign up</a>
+    </div>
+    <!-- User avatar and logout shown when logged in -->
+    <div data-show-when="logged-in" style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:8px;">
+      <a id="profileLinkMobile" href="#" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <img id="userAvatarMobile" class="navbar__avatar" src="/public/assets/default-pfp-24.jpg" alt="avatar" />
+        <span id="userDisplayNameMobile" style="font-size:0.875rem;font-weight:600;color:var(--text);"></span>
+      </a>
+      <button id="logoutBtnMobile" class="btn btn--ghost btn--sm">Logout</button>
+    </div>
+  </div>
+
+  <!-- Profile page content -->
   <div class="profile-page" id="profilePage">
 
-    <!-- Header -->
+    <!-- Profile header with avatar, name, bio and stats -->
     <div class="profile-header">
       <div class="profile-avatar-wrap">
-        <img id="profileAvatar" class="profile-avatar" src="" alt="avatar" />
+        <!-- Avatar image source is set by profile.js -->
+        <img id="profileAvatar" class="profile-avatar" src="/public/assets/default-pfp-24.jpg" alt="avatar" />
+        <!-- Edit pencil button opens the avatar URL field -->
         <span class="profile-avatar-edit" id="avatarEditBtn" title="Change avatar">✎</span>
       </div>
+
       <div class="profile-info">
-        <h2 class="profile-info__name" id="profileName"></h2>
-        <p class="profile-info__handle" id="profileHandle"></p>
-        <p class="profile-info__bio" id="profileBio" style="font-size:0.875rem;margin-top:6px;color:var(--text-muted);"></p>
+        <!-- Username and handle are set by profile.js -->
+        <h2 class="profile-info__name"   id="profileName"></h2>
+        <p  class="profile-info__handle" id="profileHandle"></p>
+        <p  class="profile-info__bio"    id="profileBio"></p>
       </div>
+
+      <!-- Stat blocks such as total watched and followers are injected here -->
       <div class="profile-stats" id="profileStats"></div>
+
+      <!-- Follow button only appears when viewing another user's profile -->
+      <button class="btn--follow" id="followBtn" style="display:none">Follow</button>
     </div>
 
-    <!-- Edit profile form (hidden by default) -->
-    <div class="profile-edit-form" id="profileEditForm" style="display:none;margin-bottom:32px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:600px;">
+    <!-- Edit profile form is hidden until the edit button is clicked -->
+    <div class="profile-edit-form" id="profileEditForm" style="display:none;">
+      <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:600px;">
+
         <div class="form-group">
           <label>Username</label>
           <input type="text" id="editUsername" />
         </div>
+
         <div class="form-group">
           <label>Avatar URL</label>
           <input type="text" id="editAvatar" placeholder="https://…" />
         </div>
+
+        <!-- Bio spans both columns -->
         <div class="form-group" style="grid-column:1/-1;">
           <label>Bio</label>
           <input type="text" id="editBio" placeholder="Tell people a bit about yourself" />
         </div>
+
       </div>
-      <div style="display:flex;gap:10px;margin-top:8px;">
+
+      <div style="display:flex;gap:10px;margin-top:12px;">
         <button class="btn btn--primary btn--sm" id="saveProfileBtn">Save</button>
-        <button class="btn btn--ghost btn--sm" id="cancelEditBtn">Cancel</button>
+        <button class="btn btn--ghost   btn--sm" id="cancelEditBtn">Cancel</button>
       </div>
+
+      <!-- Error message shown when save fails -->
       <p class="form-error" id="editError" style="margin-top:8px;"></p>
     </div>
 
+    <!-- Button toggles the edit form open and closed -->
     <button class="btn btn--ghost btn--sm" id="editProfileBtn" style="margin-bottom:24px;">Edit profile</button>
 
-    <!-- Watchlist tabs preview -->
+    <!-- Watchlist status tabs filter the anime list shown below -->
     <div class="watchlist-tabs" id="profileTabs">
       <button class="watchlist-tab active" data-status="watching">Watching</button>
       <button class="watchlist-tab" data-status="completed">Completed</button>
@@ -88,8 +157,11 @@
       <button class="watchlist-tab" data-status="dropped">Dropped</button>
     </div>
 
+    <!-- Anime cards for the selected status are injected here by profile.js -->
     <div class="row__slider-wrap" style="margin-top:16px;">
+      <button class="row__arrow row__arrow--prev" id="profileListPrev"><i data-lucide="chevron-left"></i></button>
       <div class="row__cards" id="profileAnimeList"></div>
+      <button class="row__arrow row__arrow--next" id="profileListNext"><i data-lucide="chevron-right"></i></button>
     </div>
 
   </div>
@@ -99,9 +171,12 @@
     <p>Powered by <a href="https://jikan.moe/" target="_blank">Jikan API</a></p>
   </footer>
 
+  <script>lucide.createIcons();</script>
+  <script type="module" src="../scripts/dropdown.js"></script>
   <script type="module" src="../scripts/auth.js"></script>
   <script type="module" src="../scripts/profile.js"></script>
   <script type="module" src="../scripts/search.js"></script>
+
 
 </body>
 </html>
