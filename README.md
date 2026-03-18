@@ -21,6 +21,9 @@ WGWAnime is a full-featured anime tracking and discovery platform built with van
 
 ---
 
+![Image](https://github.com/user-attachments/assets/53597f24-8044-4b95-81c6-12715cbbfacc)
+
+
 ## Features
 
 ```
