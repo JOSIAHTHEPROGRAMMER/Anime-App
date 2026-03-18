@@ -1,6 +1,6 @@
 import { Auth } from './api.js';
 
-export const DEFAULT_PFP = '/public/assets/default-pfp-24.jpg';
+export const DEFAULT_PFP = '/assets/default-pfp-24.jpg';
 
 // Determine whether the current page is at the site root or inside /pages/
 function isRoot() {
