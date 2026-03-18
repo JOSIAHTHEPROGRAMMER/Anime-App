@@ -42,23 +42,27 @@ export function createAnimeCard(anime) {
     </div>
   `;
 
+  let isDragging = false;
+
   const img = card.querySelector('.anime-card__img');
-  img.addEventListener('click', (e) => {
+  img.addEventListener('mousedown', (e) => { e.stopPropagation(); isDragging = false; });
+  img.addEventListener('mousemove', () => { isDragging = true; });
+  img.addEventListener('mouseup', (e) => {
     e.stopPropagation();
-    window.location.href = animeHref(anime.mal_id);
+    if (!isDragging) window.location.href = animeHref(anime.mal_id);
+  });
+  img.addEventListener('touchstart', (e) => { e.stopPropagation(); isDragging = false; }, { passive: true });
+  img.addEventListener('touchmove', () => { isDragging = true; }, { passive: true });
+  img.addEventListener('touchend', (e) => {
+    e.stopPropagation();
+    if (!isDragging) window.location.href = animeHref(anime.mal_id);
   });
 
-  let isDragging = false;
-  card.addEventListener('mousedown', () => { isDragging = false; });
-  card.addEventListener('mousemove', () => { isDragging = true; });
-  card.addEventListener('mouseup', () => { if (!isDragging) window.location.href = animeHref(anime.mal_id); });
-
-  card.addEventListener('touchstart', () => { isDragging = false; }, { passive: true });
-  card.addEventListener('touchmove', () => { isDragging = true; }, { passive: true });
-  card.addEventListener('touchend', () => { if (!isDragging) window.location.href = animeHref(anime.mal_id); });
 
   const btn = card.querySelector('.anime-card__add');
   if (btn) {
+    btn.addEventListener('mousedown', (e) => { e.stopPropagation(); isDragging = true; });
+    btn.addEventListener('touchstart', (e) => { e.stopPropagation(); isDragging = true; }, { passive: true });
     btn.addEventListener('click', async (e) => {
       e.stopPropagation();
       await toggleWatchlist(anime, btn);
@@ -81,6 +85,28 @@ export function renderCards(container, animeList) {
     container.appendChild(card);
     if (window.lucide) lucide.createIcons({ nodes: [card] });
   });
+
+  if (Auth.isLoggedIn()) {
+    syncWatchlistStates(container, animeList);
+  }
+}
+
+async function syncWatchlistStates(container, animeList) {
+  try {
+    const watchlist = await Watchlist.getAll();
+    if (!watchlist?.data?.length) return;
+
+    const savedIds = new Set(watchlist.data.map(e => e.malId ?? e.mal_id));
+
+    animeList.forEach(anime => {
+      if (!savedIds.has(anime.mal_id)) return;
+      const btn = container.querySelector(`.anime-card__add[data-id="${anime.mal_id}"]`);
+      if (!btn) return;
+      btn.classList.add('saved');
+      btn.innerHTML = '<i data-lucide="check"></i>';
+      if (window.lucide) lucide.createIcons({ nodes: [btn] });
+    });
+  } catch { }
 }
 
 async function toggleWatchlist(anime, btn) {
@@ -111,7 +137,7 @@ async function toggleWatchlist(anime, btn) {
       if (window.lucide) lucide.createIcons({ nodes: [btn] });
       showToast('Added to watchlist', 'success');
     } catch {
-      showToast('Failed to add - are you logged in?', 'error');
+      showToast('Failed to add — are you logged in?', 'error');
     }
   }
 }
