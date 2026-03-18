@@ -1,112 +1,121 @@
-# WGWAnime
+<div align="center">
 
-[**WGWAnime**](https://anime-app-d4be4.web.app/) is a web application built using HTML AND javascript with firebase and [Jikan API](https://jikan.moe/) that helps users explore, track, and discover anime across seasons, genres, and formats.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=160&section=header&text=WGWAnime&fontSize=52&fontColor=fff&animation=twinkling&fontAlignY=38&desc=Your%20anime%20universe%2C%20all%20in%20one%20place.&descAlignY=60&descSize=16" width="100%"/>
 
-> NOTE: The app is incomplete and due to updates in Firebase and Jikan api, the site is deployed link is no longer functional. You will need to modify the code and also have Pay as you go Blaze Plan.
+<a href="https://git.io/typing-svg">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=CE1126&center=true&vCenter=true&width=600&lines=Discover+%C2%B7+Track+%C2%B7+Review;Built+with+Vanilla+JS+%2B+Jikan+API;We+Go+Pass+%E2%80%94+always." alt="Typing SVG" />
+</a>
+
+<br/>
+
+[![Live](https://img.shields.io/badge/Live-anime--app.vercel.app-CE1126?style=flat-square&logo=vercel&logoColor=white)](https://anime-app-d4be4.web.app)
+[![Backend](https://img.shields.io/badge/Backend-Anime--App--Server-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/JOSIAHTHEPROGRAMMER/Anime-App-server)
+
+</div>
+
+---
+
+## Overview
+
+WGWAnime is a full-featured anime tracking and discovery platform built with vanilla HTML, CSS and JavaScript. No frameworks — just clean, fast, modular code backed by the Jikan API and a custom Fastify backend.
 
 ---
 
 ## Features
 
-### Homepage
-
-- Shows currently airing anime.
-- Displays anime from the same season last year.
-- Highlights upcoming anime for the current season.
-
-### Anime Detail Page
-
-- Displays anime synopsis, image, and trailer.
-- Users can save anime to their personal list (work in progress but functional).
-
-### Navigation & Pages
-
-- **Search Bar**: Search anime by title.
-- **Saved Anime List Page**: View anime you've saved.
-- **Genre Page**: Browse anime by genres.
-- **Types Dropdown**: Hover to explore different types (TV, OVA, Movie, etc.).
-
-### Additional Highlights
-
-- Save your favorite anime with firbase
-- Hosted on Firebase
-- Beautiful toast notifications with `toastify-js`
+```
+Discover          Browse currently airing, upcoming, and seasonal anime
+Spotlight Hero    Cinematic hero section cycling top airing anime with trailer previews
+Watchlist         Track anime with status, episode progress, and live updates
+Reviews           Rate and review anime, like other users' reviews
+Recommendations   AI-powered suggestions based on your watchlist via Groq
+Genres            Visual genre cards with anime backgrounds
+Social            Follow users, view activity feeds, discover new people
+Auth              JWT-based login and registration — no Firebase
+```
 
 ---
 
-## Installation
+## Tech Stack
+
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+---
+
+## Project Structure
+
+```
+public/
+├── index.html
+├── styles/
+│   └── main.css
+├── scripts/
+│   ├── api.js              — all fetch calls (Jikan + backend)
+│   ├── auth.js             — JWT state management
+│   ├── ui.js               — shared render helpers
+│   ├── home.js             — homepage logic + hero spotlight
+│   ├── search.js           — navbar search
+│   ├── browse.js           — search results + filters
+│   ├── anime.js            — detail page
+│   ├── genres.js           — genres grid
+│   ├── saved.js            — watchlist page
+│   ├── profile.js          — user profile
+│   ├── social.js           — activity feed + follow
+│   ├── login.js
+│   └── register.js
+└── pages/
+    ├── anime.html
+    ├── browse.html
+    ├── genres.html
+    ├── saved.html
+    ├── profile.html
+    ├── social.html
+    ├── login.html
+    └── register.html
+```
+
+---
+
+## Getting Started
 
 ```bash
 git clone https://github.com/JOSIAHTHEPROGRAMMER/Anime-App
 cd Anime-App
-npm install
 ```
 
----
+Open `public/index.html` in your browser or serve with any static server:
 
-## Firebase Integration
+```bash
+npx serve public
+```
 
-The app uses Firebase to store saved anime data and user preferences. Here's how Firebase is integrated:
-
-### Firebase Features Used:
-
-- **Firebase Hosting** – for deploying the app.
-- **Firebase Firestore** – to save users' favorite anime.
-- **Firebase Authentication** – Google and Username/password authentication.
-
-### Setup Firebase Locally:
-
-1. Create a Firebase project in [Firebase Console](https://console.firebase.google.com/).
-2. Enable Firestore in the Firebase project.
-3. Set up Firebase Authentication for user logins.
-4. Get your Firebase config from Project Settings > Web SDK snippet.
-5. Replace the config in `firebase-config.js`:
+Point the API base URL in `public/scripts/api.js` to your backend:
 
 ```js
-// src/firebase-config.js
-
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
-};
-
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+const API_BASE = window.__WGW_API__ ?? "http://localhost:3000/api";
 ```
-
-## Deploy to Firebase
-
-You can deploy the **WGWAnime** public using **Firebase Hosting**. Here's how:
 
 ---
 
-### Step 1: Install Firebase CLI
+## Environment
+
+The frontend is purely static — no build step, no environment variables needed. Set `window.__WGW_API__` in a `<script>` tag before your module scripts to point to your deployed backend.
+
+---
+
+## Deployment
+
+Deploy the `public/` folder to Vercel as a static site.
 
 ```bash
-npm install -g firebase-tools
+vercel --prod
 ```
 
-## Step 2: Login to Firebase
+---
 
-```bash
-firebase login
-```
+## Related
 
-## Step 3: Initialize Firebase in the Project
-
-```bash
-firebase init
-```
-
-## Step 4: Deploy App
-
-```bash
-firebase deploy
-```
+- [WGWAnime Backend](https://github.com/JOSIAHTHEPROGRAMMER/Anime-App-server) — Fastify + MongoDB + Groq API
