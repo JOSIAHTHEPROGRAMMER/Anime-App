@@ -12,7 +12,7 @@
 
 ## Overview
 
-WGWAnime is a full-featured anime tracking and discovery platform built with vanilla HTML, CSS and JavaScript. No frameworks — just clean, fast, modular code backed by the Jikan API and a custom Fastify backend.
+WGWAnime is a full-featured anime tracking and discovery platform built with vanilla HTML, CSS and JavaScript. Clean, fast, modular code backed by the Jikan API and a custom Fastify backend.
 
 ---
 
@@ -29,7 +29,7 @@ Reviews           Rate and review anime, like other users' reviews
 Recommendations   AI-powered suggestions based on your watchlist via Groq
 Genres            Visual genre cards with anime backgrounds
 Social            Follow users, view activity feeds, discover new people
-Auth              JWT-based login and registration — no Firebase
+Auth              JWT-based login and registration - no Firebase
 ```
 
 ---
@@ -51,17 +51,17 @@ public/
 ├── styles/
 │   └── main.css
 ├── scripts/
-│   ├── api.js              — all fetch calls (Jikan + backend)
-│   ├── auth.js             — JWT state management
-│   ├── ui.js               — shared render helpers
-│   ├── home.js             — homepage logic + hero spotlight
-│   ├── search.js           — navbar search
-│   ├── browse.js           — search results + filters
-│   ├── anime.js            — detail page
-│   ├── genres.js           — genres grid
-│   ├── saved.js            — watchlist page
-│   ├── profile.js          — user profile
-│   ├── social.js           — activity feed + follow
+│   ├── api.js              - all fetch calls (Jikan + backend)
+│   ├── auth.js             - JWT state management
+│   ├── ui.js               - shared render helpers
+│   ├── home.js             - homepage logic + hero spotlight
+│   ├── search.js           - navbar search
+│   ├── browse.js           - search results + filters
+│   ├── anime.js            - detail page
+│   ├── genres.js           - genres grid
+│   ├── saved.js            - watchlist page
+│   ├── profile.js          - user profile
+│   ├── social.js           - activity feed + follow
 │   ├── login.js
 │   └── register.js
 └── pages/
@@ -100,7 +100,7 @@ const API_BASE = window.__WGW_API__ ?? "http://localhost:3000/api";
 
 ## Environment
 
-The frontend is purely static — no build step, no environment variables needed. Set `window.__WGW_API__` in a `<script>` tag before your module scripts to point to your deployed backend.
+The frontend is purely static - no build step, no environment variables needed. Set `window.__WGW_API__` in a `<script>` tag before your module scripts to point to your deployed backend.
 
 ---
 
@@ -116,4 +116,4 @@ vercel --prod
 
 ## Related
 
-- [WGWAnime Backend](https://github.com/JOSIAHTHEPROGRAMMER/Anime-App-server) — Fastify + MongoDB + Groq API
+- [WGWAnime Backend](https://github.com/JOSIAHTHEPROGRAMMER/Anime-App-server) - Fastify + MongoDB + Groq API
