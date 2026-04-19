@@ -50,9 +50,9 @@
   --s1: 4px;
   --s2: 8px;
   --s3: 12px;
-  --s4: 16px;
+  --s4: 20px;
   --s5: 24px;
-  --s6: 32px;
+  --s6: 38px;
   --s7: 48px;
   --s8: 64px;
 
@@ -1462,17 +1462,18 @@ body[data-auth="true"] [data-show-when="logged-out"] {
 
 .genres-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(190px, 6fr));
   gap: var(--s4);
   margin-top: var(--s5);
 }
 
 .genre-card {
   position: relative;
-  height: 130px;
+  height: 40px;
   border-radius: var(--radius-lg);
   overflow: hidden;
   cursor: pointer;
+
   border: 1px solid var(--border);
   transition:
     transform var(--ease),
@@ -1517,7 +1518,7 @@ body[data-auth="true"] [data-show-when="logged-out"] {
   bottom: 10px;
   left: 12px;
   font-family: "Syne", sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: #fff;
   z-index: 1;
