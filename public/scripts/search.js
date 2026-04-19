@@ -4,7 +4,7 @@ import { Jikan } from './api.js';
 // The path differs depending on whether the caller is at the root or in /pages/.
 function browseHref(q) {
   const inPages = window.location.pathname.includes('/pages/');
-  const base = inPages ? './browse.html' : '/public/pages/browse.html';
+  const base = inPages ? './browse.html' : './pages/browse.html';
   return `${base}?q=${encodeURIComponent(q)}`;
 }
 
