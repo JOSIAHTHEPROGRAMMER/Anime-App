@@ -1,23 +1,18 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=160&section=header&text=WGWAnime&fontSize=52&fontColor=fff&animation=twinkling&fontAlignY=38&desc=Your%20anime%20universe%2C%20all%20in%20one%20place.&descAlignY=60&descSize=16" width="100%"/>
+# WGWAnime
 
-<a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=CE1126&center=true&vCenter=true&width=600&lines=Discover+%C2%B7+Track+%C2%B7+Review;Built+with+Vanilla+JS+%2B+Jikan+API;We+Go+Pass+%E2%80%94+always." alt="Typing SVG" />
-</a>
-
-<br/>
-
-[![Live](https://img.shields.io/badge/Live-anime--app.vercel.app-CE1126?style=flat-square&logo=vercel&logoColor=white)](https://anime-app-d4be4.web.app)
+[![Live](https://img.shields.io/badge/Live-anime--app--red.vercel.app-CE1126?style=flat-square&logo=vercel&logoColor=white)](https://anime-app-red.vercel.app)
 [![Backend](https://img.shields.io/badge/Backend-Anime--App--Server-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/JOSIAHTHEPROGRAMMER/Anime-App-server)
 
 </div>
+
 
 ---
 
 ## Overview
 
-WGWAnime is a full-featured anime tracking and discovery platform built with vanilla HTML, CSS and JavaScript. No frameworks — just clean, fast, modular code backed by the Jikan API and a custom Fastify backend.
+WGWAnime is a full-featured anime tracking and discovery platform built with vanilla HTML, CSS and JavaScript. Clean, fast, modular code backed by the Jikan API and a custom Fastify backend.
 
 ---
 
@@ -34,7 +29,7 @@ Reviews           Rate and review anime, like other users' reviews
 Recommendations   AI-powered suggestions based on your watchlist via Groq
 Genres            Visual genre cards with anime backgrounds
 Social            Follow users, view activity feeds, discover new people
-Auth              JWT-based login and registration — no Firebase
+Auth              JWT-based login and registration - no Firebase
 ```
 
 ---
@@ -56,17 +51,17 @@ public/
 ├── styles/
 │   └── main.css
 ├── scripts/
-│   ├── api.js              — all fetch calls (Jikan + backend)
-│   ├── auth.js             — JWT state management
-│   ├── ui.js               — shared render helpers
-│   ├── home.js             — homepage logic + hero spotlight
-│   ├── search.js           — navbar search
-│   ├── browse.js           — search results + filters
-│   ├── anime.js            — detail page
-│   ├── genres.js           — genres grid
-│   ├── saved.js            — watchlist page
-│   ├── profile.js          — user profile
-│   ├── social.js           — activity feed + follow
+│   ├── api.js              - all fetch calls (Jikan + backend)
+│   ├── auth.js             - JWT state management
+│   ├── ui.js               - shared render helpers
+│   ├── home.js             - homepage logic + hero spotlight
+│   ├── search.js           - navbar search
+│   ├── browse.js           - search results + filters
+│   ├── anime.js            - detail page
+│   ├── genres.js           - genres grid
+│   ├── saved.js            - watchlist page
+│   ├── profile.js          - user profile
+│   ├── social.js           - activity feed + follow
 │   ├── login.js
 │   └── register.js
 └── pages/
@@ -105,7 +100,7 @@ const API_BASE = window.__WGW_API__ ?? "http://localhost:3000/api";
 
 ## Environment
 
-The frontend is purely static — no build step, no environment variables needed. Set `window.__WGW_API__` in a `<script>` tag before your module scripts to point to your deployed backend.
+The frontend is purely static - no build step, no environment variables needed. Set `window.__WGW_API__` in a `<script>` tag before your module scripts to point to your deployed backend.
 
 ---
 
@@ -121,4 +116,4 @@ vercel --prod
 
 ## Related
 
-- [WGWAnime Backend](https://github.com/JOSIAHTHEPROGRAMMER/Anime-App-server) — Fastify + MongoDB + Groq API
+- [WGWAnime Backend](https://github.com/JOSIAHTHEPROGRAMMER/Anime-App-server) - Fastify + MongoDB + Groq API
